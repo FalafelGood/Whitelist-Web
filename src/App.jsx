@@ -4,18 +4,25 @@ import YouTube from 'react-youtube'
 import Navbar from './components/Navbar.jsx'
 import VideoPlayer from './components/VideoPlayer.jsx'
 import Channel from './components/Channel.jsx'
+import Home from './pages/Home.jsx'
+import About from './pages/About.jsx'
 import './App.css'
-
-// 640, 390
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <Router>
-      <Navbar />
-      <VideoPlayer videoId="sH3Br9SyzRU"/>
-      <Channel />
+      <div className="flex flex-col justify-between h-screen">
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />}/>
+          <Route path='/about' element={<About />}/>
+        </Routes>
+        {/* <VideoPlayer videoId="sH3Br9SyzRU"/>
+        <Channel /> */}
+      </div>
+      {/* <img src="../src/assets/black-no-text.svg" width="50px" /> */}
     </Router>
   )
 }
