@@ -13,16 +13,13 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col justify-between h-screen">
+      <div className="flex flex-col">
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />}/>
           <Route path='/about' element={<About />}/>
         </Routes>
-        {/* <VideoPlayer videoId="sH3Br9SyzRU"/>
-        <Channel /> */}
       </div>
-      {/* <img src="../src/assets/black-no-text.svg" width="50px" /> */}
     </Router>
   )
 }

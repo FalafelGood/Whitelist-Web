@@ -28,6 +28,7 @@ function Navbar({ title='Whitelist' }) {
             <Link to={`/${label === 'Home' ? '' : label}`} 
               className={`btn btn-sm rounded-btn mr-2 ${activeBtn === idx ? 'btn-neutral' : ''}`}
               onClick={()=> setActiveBtn(idx)}
+              key={`${label}`}
             >
               {`${label}`}
             </Link>
