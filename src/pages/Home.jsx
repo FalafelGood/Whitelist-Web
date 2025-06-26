@@ -10,7 +10,10 @@ function Home() {
       <h1 className="text-2xl">Featured channels</h1>
       <VideoCard videoId="ieqsL5NkS6I"/>
       <VideoPlayer videoId="sH3Br9SyzRU"/>
-      <Channel /> 
+      <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center">
+        <Channel /> 
+        <Channel /> 
+      </div>
     </div>
   )
 }
