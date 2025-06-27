@@ -8,7 +8,7 @@ function Navbar({ title='Whitelist' }) {
   const [activeBtn, setActiveBtn] = useState(0);
 
   return (
-    <nav className='navbar mb-12 shadow-lg bg-linear-to-r from-black to-white text-neutral-content w-full'>
+    <nav className='navbar shadow-lg bg-linear-to-r from-black to-white text-neutral-content w-full'>
       <img src="../src/assets/white-no-text.svg" width="50px" className='ml-4'/>
       <div className="container mx-auto">
         <div className="flex-none px-2 mx-2">
