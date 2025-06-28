@@ -1,17 +1,28 @@
-import SearchBar from '../components/SearchBar'
-import VideoPlayer from '../components/VideoPlayer'
+import { useEffect, useState } from 'react'
 import Channel from '../components/Channel'
-import VideoCard from '../components/VideoCard'
 
 function Home() {
-  return(
+
+  // Note -- this code can (and probably should) go into a context.
+  const [whitelist, setWhitelist] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Run this effect once on page load:
+  useEffect(() => {
+    const fetchWhitelist = async () => {
+      const response = await fetch("/whitelist.json");
+      const data = await response.json();
+      setWhitelist(data);
+      setIsLoading(false);
+    }
+    fetchWhitelist();
+  }, [])
+
+  return( isLoading ? (<h1>Loading...</h1>) :
     <div>
-      {/* <SearchBar /> */}
-      {/* <VideoCard videoId="ieqsL5NkS6I"/>
-      <VideoPlayer videoId="sH3Br9SyzRU"/> */}
       <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center">
-        <Channel /> 
-        <Channel /> 
+        <Channel channel={whitelist[0].channels[0]}/> 
+        <Channel channel={whitelist[0].channels[1]}/> 
       </div>
     </div>
   )

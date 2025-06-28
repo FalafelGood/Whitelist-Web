@@ -10,7 +10,7 @@ function About() {
         </div>
       </div>
 
-      <div class="divider">
+      <div className="divider">
         <h1 className="text-2xl">How it works</h1>
       </div>
 

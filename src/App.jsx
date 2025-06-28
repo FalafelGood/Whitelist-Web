@@ -1,14 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import VideoPage from './pages/VideoPage.jsx'
+import ChannelPage from './pages/ChannelPage.jsx'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <Router>
       <div className="flex flex-col">
@@ -17,6 +16,7 @@ function App() {
           <Route path='/' element={<Home />}/>
           <Route path='/about' element={<About />}/>
           <Route path='/watch/*' element={<VideoPage />}/>
+          <Route path='/channel/*' element={<ChannelPage />}/>
         </Routes>
       </div>
     </Router>
