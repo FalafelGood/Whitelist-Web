@@ -100,6 +100,111 @@
           "name": "The Early Church was 100% Catholic. Here's Why... w/ Joe Heschmeyer",
           "id":"Z4bIcU2JO4Y"
         }]
+    },
+    {
+    "name": "Tasting History with Max Miller",
+    "id": "@TastingHistory",
+    "category": "history",
+    "description": "Every Tuesday, I show you how to make a different historic dish while exploring the history surrounding it.",
+    "photo": "https://yt3.googleusercontent.com/ytc/AIdro_nWS0Jys48-0iNze7-btin0lQoYO3IFOI33m2SlwdbGUFQ=s176-c-k-c0x00ffffff-no-rj-mo",
+    "banner": "https://yt3.googleusercontent.com/GKzl_DmbpTGPzJHQ2gWzgbni53RDkpSbtArCnl8PHsLh5pc1wkiHQxi50v5gWQvmvR9JBP6XdQ=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
+    "rating":"",
+    "videos": [
+      {
+        "name": "What did Cowboys Eat on the Open Range?",
+        "id": "byExSVemLI8"
+      },
+      {
+        "name": "Food in the Trenches of World War One",
+        "id": "S0cM-u7Jrh8"
+      },
+      {
+        "name": "Biryani from 16th Century India",
+        "id": "UrOHZNmcLBw"
+      },
+      {
+        "name": "The Picnic at the Battle of Bull Run",
+        "id": "Yh06B9GsvUc"
+      },
+      {
+        "name": "The Original Kaiserschmarrn of the Austrian Empire",
+        "id": "q01hFyG7tLM"
+      },
+      {
+        "name": "Feeding the Papal Conclave",
+        "id": "lZCs9aMkzBQ"
+      }
+    ]
+    },
+    {
+    "name": "Sebastian Lague",
+    "id": "@SebastianLague",
+    "category": "computer science",
+    "description": "Hello, on this channel I explore how to create stuff out of code. I hope you find some of it interesting!",
+    "photo": "https://yt3.googleusercontent.com/ytc/AIdro_knyJw3jL_6AGomJmGe3VvfIYxWzZC9Y8z90Liru4G0UHM=s176-c-k-c0x00ffffff-no-rj-mo",
+    "banner": "https://yt3.googleusercontent.com/fKMy10_wlvhK8G0gf_k0ZChtytuZ8uWTvxqQB2Mxh6urBdsAZ5zVeAhQsHAFUUlYQntXLdCLTIk=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
+    "rating":"",
+    "videos":[
+      {
+        "name": "Coding Adventure: Software Rasterizer",
+        "id": "yyJ-hdISgnw"
+      },
+      {
+        "name": "Simulating 256 Bytes of RAM",
+        "id": "HGkuRp5HfH8"
+      },
+      {
+        "name": "Coding Adventure: Planetary Fluid Sim",
+        "id": "8nIB7e_eds4"
+      },
+      {
+        "name": "Coding Adventure: Rendering Fluids ",
+        "id": "kOkfC5fLfgE"
+      },
+      {
+        "name": "Coding Adventure: Sound (and the Fourier Transform)",
+        "id": "iA6wRgwl7k0"
+      },
+      {
+        "name": "Coding Adventure: More Ray Tracing!",
+        "id": "C1H4zIiCOaI"
+      }
+    ]
+    },
+    {
+    "name": "Jake Weidmann",
+    "id": "@JakeWiedmannArtist",
+    "category": "art",
+    "description": "Jake Weidmann is a master penman who presents various videos about calligraphy",
+    "photo": "https://yt3.ggpht.com/MAaD2Kd3NcO_t9iMIlWI15grzU54hXGN4Lk2hYRrDioV_BMmZcC5-I4kiKSCy_8oZyo-ZHaQDVY=s176-c-k-c0x00ffffff-no-rj-mo",
+    "banner": "https://yt3.googleusercontent.com/gdDit3bEJAPZN9zRKVggPR-097TANZGd3a0TR2FVxepTtQ7YTe3hM4wtFu5H09_KHPjAYM6Nsw=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
+    "rating": "",
+    "videos": [
+      {
+        "name": "The Old Rugged Cross by Jake Weidmann",
+        "id": "dGxtDNGo-8E"
+      },
+      {
+        "name": "Penmanship by Jake Weidmann",
+        "id": "8TPoyCmhHnE"
+      },
+      {
+        "name": "Lion of Judah Series by Jake Weidmann",
+        "id": "5fJcac9E9ik"
+      },
+      {
+        "name": "Steward by Jake Weidmann",
+        "id": "HlPXcavbnzc"
+      },
+      {
+        "name": "The Write Direction by Jake Weidmann",
+        "id": "BOt9Ph2A3yg"
+      },
+      {
+        "name": "Indivisible by Jake Weidmann",
+        "id": "TMdBCO9lJ78"
+      }
+    ]
     }
   ]
 },

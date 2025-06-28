@@ -24,6 +24,9 @@ function Home() {
         <Channel channel={whitelist[0].channels[0]}/> 
         <Channel channel={whitelist[0].channels[1]}/>
         <Channel channel={whitelist[0].channels[2]}/> 
+        <Channel channel={whitelist[0].channels[3]}/>
+        <Channel channel={whitelist[0].channels[4]}/>
+        <Channel channel={whitelist[0].channels[5]}/> 
       </div>
     </div>
   )
