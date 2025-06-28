@@ -11,7 +11,7 @@ function Channel({ channel }) {
         <img src={`${channel.photo}`}
         className="rounded-full max-w-[100px] max-h-[100px] m-2"
         />
-        <p className="ml-2 mr-2">
+        <p className="ml-2 mr-2 line-clamp-5">
           {`${channel.description}`}
         </p>
       </div>
