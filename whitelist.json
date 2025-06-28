@@ -73,9 +73,33 @@
       "name": "Pints with Aquinas",
       "id": "@pintswithaquinas",
       "photo": "https://yt3.ggpht.com/d5ueOI_LK-HABSma5_MKX0F3uyMTrLRS83vwV3ka5ZggooUKIW3WEz01wr04QuUjr7wXIGhB=s176-c-k-c0x00ffffff-no-rj-mo",
+      "banner": "https://yt3.googleusercontent.com/_jPXq7iJZu-xH0SWqTkdmoRG2ubz8vw9Ie5VP7OuB3J-meF5pNJV5ZEjYA7MDWpN81ydfJZqSw=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj",
       "description": "Long form discussions about the Catholic faith.",
       "rating": "",
-      "videos": ["sAdsnUjObsI", "N18syayPNbc", "6U__ioj5hD8", "8e6v3pWggVY", "mDUmJPxyC4U", "Z4bIcU2JO4Y"]
+      "videos": [
+        {
+          "name": "From Mormon Missionary to Catholic (Isaac Hess) | Ep. 437",
+          "id":"sAdsnUjObsI"}, 
+        {
+          "name": "Catholics in Exile (Dr. Scott Hahn) | Ep. 432",
+          "id":"N18syayPNbc"
+        },
+        {
+          "name": "Playing Jesus in THE CHOSEN (Jonathan Roumie) | Ep. 482",
+          "id":"6U__ioj5hD8"
+        }, 
+        {
+          "name": "St. Faustina & The Divine Mercy: A Message for Our Time (Fr. Chris Alar) | Ep. 521",
+          "id":"8e6v3pWggVY"
+        }, 
+        {
+          "name": "The Occult, Vatican Secrets, and The Mysticism of Pope St John Paul II (Jason Evert) | Ep. 491",
+          "id":"mDUmJPxyC4U"
+        }, 
+        {
+          "name": "The Early Church was 100% Catholic. Here's Why... w/ Joe Heschmeyer",
+          "id":"Z4bIcU2JO4Y"
+        }]
     }
   ]
 },

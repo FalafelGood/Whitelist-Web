@@ -11,9 +11,11 @@ function Channel({ channel }) {
         <img src={`${channel.photo}`}
         className="rounded-full max-w-[100px] max-h-[100px] m-2"
         />
-        <p className="ml-2 mr-2 line-clamp-5">
-          {`${channel.description}`}
-        </p>
+        <div className="flex items-center">
+          <p className="ml-2 mr-2 line-clamp-5">
+            {`${channel.description}`}
+          </p>
+        </div>
       </div>
       <Link to="/channel?cid=@HarpaDeiMusic" className="btn btn-primary ml-4 mr-4">
       Visit Channel

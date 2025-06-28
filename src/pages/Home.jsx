@@ -22,7 +22,8 @@ function Home() {
     <div>
       <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center">
         <Channel channel={whitelist[0].channels[0]}/> 
-        <Channel channel={whitelist[0].channels[1]}/> 
+        <Channel channel={whitelist[0].channels[1]}/>
+        <Channel channel={whitelist[0].channels[2]}/> 
       </div>
     </div>
   )
