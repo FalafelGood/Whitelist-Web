@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Channel from '../components/Channel'
+import SearchBar from '../components/SearchBar'
 
 function Home() {
 
@@ -20,6 +21,7 @@ function Home() {
 
   return( isLoading ? (<h1>Loading...</h1>) :
     <div>
+      <SearchBar />
       <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center">
         {/* List all recommended channels */}
         {whitelist[0].channels.map((channel, idx) => (

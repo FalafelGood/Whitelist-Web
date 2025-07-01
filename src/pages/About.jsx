@@ -30,11 +30,11 @@ function About() {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut dolor iste voluptates officiis quaerat eos. Sunt cumque iste nam totam. Explicabo, excepturi provident sapiente architecto nulla asperiores animi ullam magni quas. Doloribus facere fuga voluptas animi aut. Exercitationem odio, est, assumenda quisquam eveniet, accusamus enim recusandae quas pariatur maxime nostrum.
       </p>
 
-      <div class="divider">
+      <div className="divider">
         <h1 className="text-2xl">Our Vision</h1>
       </div>
 
-      <div class="divider">
+      <div className="divider">
         <h1 className="text-2xl">Meet the team</h1>
       </div>
     </>

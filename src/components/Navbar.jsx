@@ -20,13 +20,12 @@ function Navbar({ title='Whitelist' }) {
         </div>
       </div>
 
-      {/* What does flex-1 do? */}
       <div className="flex-1 px-2 mx-2">
-        <div className="flex justify-end">
+        <div className="flex flex-col sm:flex-row justify-end">
 
           {buttons.map((label, idx) => (
             <Link to={`/${label === 'Home' ? '' : label}`} 
-              className={`btn btn-sm rounded-btn mr-2 ${activeBtn === idx ? 'btn-neutral' : ''}`}
+              className={`btn btn-sm rounded-btn mr-2 mb-1 mt-1 ${activeBtn === idx ? 'btn-neutral' : ''}`}
               onClick={()=> setActiveBtn(idx)}
               key={`${label}`}
             >
