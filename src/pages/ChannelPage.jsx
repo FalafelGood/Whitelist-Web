@@ -1,21 +1,24 @@
 import VideoCard from '../components/VideoCard'
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 
 function ChannelPage() {
 
-  return (
+  const location = useLocation();
+  const channel = location.state;
+  console.log(channel);
+
+  return channel ? (
     <>
-      <h1 className="card-title text-4xl ml-8 mt-8">Videos from Channel Title</h1>
+      <h1 className="card-title text-4xl ml-8 mt-8">Videos from {channel.name}</h1>
       <div className="grid sm:grid-cols:1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
-        <VideoCard videoId="663oViTBcE0"/>
-        <VideoCard videoId="2cfkI5vjYNI"/>
-        <VideoCard videoId="Y3MMBMZT2wo"/>
-        <VideoCard videoId="oxra-suTNoY"/>
-        <VideoCard videoId="iGUuucy_PME"/>
-        <VideoCard videoId="VFVSqgxKveQ"/>
+        {channel.videos.map((video, idx) => (
+          <VideoCard key={idx} video={video} />
+        ))}
       </div>
     </>
-  );
+  ) : (
+    <h1>An error has occoured -- Don't look at me!</h1>
+  )
 
 }
 

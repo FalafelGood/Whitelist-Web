@@ -17,7 +17,9 @@ function Channel({ channel }) {
           </p>
         </div>
       </div>
-      <Link to="/channel?cid=@HarpaDeiMusic" className="btn btn-primary ml-4 mr-4">
+      <Link to="/channel?cid=@HarpaDeiMusic"
+      state={channel}
+      className="btn btn-primary ml-4 mr-4">
       Visit Channel
       </Link>
       <div className="grid sm:grid-cols:1 md:grid-cols-2 place-items-center">
