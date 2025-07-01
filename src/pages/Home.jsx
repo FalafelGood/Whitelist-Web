@@ -21,12 +21,10 @@ function Home() {
   return( isLoading ? (<h1>Loading...</h1>) :
     <div>
       <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center">
-        <Channel channel={whitelist[0].channels[0]}/> 
-        <Channel channel={whitelist[0].channels[1]}/>
-        <Channel channel={whitelist[0].channels[2]}/> 
-        <Channel channel={whitelist[0].channels[3]}/>
-        <Channel channel={whitelist[0].channels[4]}/>
-        <Channel channel={whitelist[0].channels[5]}/> 
+        {/* List all recommended channels */}
+        {whitelist[0].channels.map((channel, idx) => (
+          <Channel key={idx} channel={channel} />
+        ))}
       </div>
     </div>
   )

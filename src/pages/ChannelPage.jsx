@@ -17,7 +17,7 @@ function ChannelPage() {
       </div>
     </>
   ) : (
-    <h1>An error has occoured -- Don't look at me!</h1>
+    <h1>An error has occoured</h1>
   )
 
 }
