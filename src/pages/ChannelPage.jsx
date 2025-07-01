@@ -10,6 +10,9 @@ function ChannelPage() {
   return channel ? (
     <>
       <h1 className="card-title text-4xl ml-8 mt-8">Videos from {channel.name}</h1>
+      <Link to="/" className="btn btn-primary w-25 ml-8 mt-6">
+        Home
+      </Link>
       <div className="grid sm:grid-cols:1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
         {channel.videos.map((video, idx) => (
           <VideoCard key={idx} video={video} />
