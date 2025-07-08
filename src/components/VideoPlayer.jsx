@@ -6,7 +6,7 @@ function VideoPlayer({ videoId, width=640, height=390}) {
       type="text/html" 
       width={`${width}`} 
       height={`${height}`}
-      src={`http://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=http://example.com`}
+      src={`https://www.youtube.com/embed/${videoId}`}
       className="rounded-3xl shadow-xl"
       ></iframe>
   );
