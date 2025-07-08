@@ -7,12 +7,15 @@ function Home() {
   // Note -- this code can (and probably should) go into a context.
   const [whitelist, setWhitelist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [category, setCategory] = useState("recommended")
 
   // Run this effect once on page load:
   useEffect(() => {
     const fetchWhitelist = async () => {
-      const response = await fetch("/whitelist.json");
+      const request = (category === "recommended" ? "http://localhost:5000/whitelist/?recommended=true" : `/http://localhost:5000/whitelist/?category=${category}`);
+      const response = await fetch(request);
       const data = await response.json();
+      console.log(data);
       setWhitelist(data);
       setIsLoading(false);
     }
@@ -23,8 +26,7 @@ function Home() {
     <div>
       <SearchBar />
       <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center 2xl:grid-cols-3">
-        {/* List all recommended channels */}
-        {whitelist[0].channels.map((channel, idx) => (
+        {whitelist.map((channel, idx) => (
           <Channel key={idx} channel={channel} />
         ))}
       </div>

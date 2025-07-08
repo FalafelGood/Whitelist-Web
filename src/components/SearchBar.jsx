@@ -19,7 +19,6 @@ function SearchBar() {
             <li><a>History</a></li>
             <li><a>Computer Science</a></li>
             <li><a>Visual Art</a></li>
-            <li><a>Nature</a></li>
           </ul>
         </div>
       </div>
