@@ -6,22 +6,23 @@ import About from './pages/About.jsx'
 import VideoPage from './pages/VideoPage.jsx'
 import ChannelPage from './pages/ChannelPage.jsx'
 import './App.css'
+import {FeedProvider} from './context/FeedContext.jsx'
 
 function App() {
-  const [category, setCategory] = useState ('recommended');
-
   return (
-    <Router>
-      <div className="flex flex-col">
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />}/>
-          <Route path='/about' element={<About />}/>
-          <Route path='/watch/*' element={<VideoPage />}/>
-          <Route path='/channel/*' element={<ChannelPage />}/>
-        </Routes>
-      </div>
-    </Router>
+    <FeedProvider>
+      <Router>
+        <div className="flex flex-col">
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />}/>
+            <Route path='/about' element={<About />}/>
+            <Route path='/watch/*' element={<VideoPage />}/>
+            <Route path='/channel/*' element={<ChannelPage />}/>
+          </Routes>
+        </div>
+      </Router>
+    </FeedProvider>
   )
 }
 
