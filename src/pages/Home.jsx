@@ -22,7 +22,7 @@ function Home() {
   return( isLoading ? (<h1>Loading...</h1>) :
     <div>
       <SearchBar />
-      <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center">
+      <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center 2xl:grid-cols-3">
         {/* List all recommended channels */}
         {whitelist[0].channels.map((channel, idx) => (
           <Channel key={idx} channel={channel} />

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 function Channel({ channel }) {
 
   return (
-    <div className="card bg-base-500 m-4 shadow-lg sm:max-w[500px] md:max-w-[800px]">
+    <div className="card bg-base-500 m-4 shadow-lg sm:max-w[500px] md:max-w-[1200px]">
       <h1 className="card-title text-4xl m-2">{`${channel.name}`}</h1>
       <img className="rounded-xl m-2" src={`${channel.banner}`}></img>
       <div className="flex m-2">

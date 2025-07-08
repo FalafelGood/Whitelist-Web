@@ -10,7 +10,7 @@ function VideoPage() {
   return (
     <div className="hero">
       <div className="hero-content flex-col">
-        <h1 className="text-xl">Video Title</h1>
+        {/* <h1 className="text-xl">Video Title</h1> */}
         <VideoPlayer videoId={`${videoId}`}/>
         <div className="flex gap-4">
           <Link to="/" className="btn btn-primary">Home</Link>
