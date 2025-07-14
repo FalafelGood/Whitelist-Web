@@ -1,3 +1,5 @@
+import DropBox from "../components/DropBox"
+
 function About() {
   return(
     <>
@@ -5,68 +7,64 @@ function About() {
         <div className="hero-content text-center flex-col min-h-[440px]">
         <h1 className="text-6xl mb-4">Internet without evil</h1>
         <p className='mb-4 mr-4 ml-4 text-2xl font-light'>
-          Whitelist is a content curation platform based on Catholic moral teachings.
+          Whitelist hopes to be a content curation service based on Catholic moral teachings. Our goal is to find (and platform) the most edifying videos on the internet using a responsible combination of machine learning and human moderation.
         </p>
         </div>
       </div>
 
-      <div className="divider">
+      <div className="divider mb-8">
         <h1 className="text-2xl">Q&A</h1>
       </div>
 
-      <h1 className="text-2xl">
-        <b>
-        How does it work?
-        </b>
-      </h1>
+      <div className="flex flex-col justify-center items-center gap-4 mb-8">
 
-      <p>
-        Our team will identify high quality YouTube channels using human moderation and a responsible amount of machine learning.
-      </p>
+        <DropBox 
+          title="How does this work?"
+          // Pass jsx into the body instead of a string
+          body={
+            <>
+              In broad strokes, our team will identify promising YouTube channels and scrutinize their content. When we find a creator who consistently makes high quality videos in accordance with Catholic moral teachings, we will add them to the whitelist and their videos will become available to watch.
+              <br /><br />
+              Moreover, each video on the whitelist will be assigned a rating that indicates both its merits and its potential hazards. This way, parents (or sensitive viewers) will be able to filter out any content they deem unsuitable.
+            </>
+          } 
+        />
 
-      <h1 className="text-2xl">
-        <b>
-        Who is this for?
-        </b>
-      </h1>
+        <DropBox 
+          title="Who is Whitelist for?"
+          body={
+            <>
+              Everyone! We're building Whitelist to be enjoyed by children, parents, schools, and whoever else wants to watch good, clean videos.
+            </>
+          } 
+        />
 
-      <p>
-        Parents, teachers, and anyone else who doesn't want to wade through garbage.
-      </p>
+        <DropBox 
+          title="Is Whitelist an educational platform?"
+          body={
+            <>
+              Currently, the vision is to sell two products: A home version that has a little bit of everything, and a school version that only contains educational content.
+            </>
+          } 
+        />
 
-      <h1 className="text-2xl">
-        <b>
-        How do you decide what goes on the whitelist?
-        </b>
-      </h1>
+        <DropBox 
+          title="I've heard of content-filtering software like Canopy and Covenant Eyes. Is Whitelist anything like that?"
+          body={
+            <>
+              Yes and no. We have the same objective of creating a safer internet, but we differ in our methodology. Services like Canopy or Covenant Eyes block sexually explicit content using a combination of database queries and real-time filtering. Whitelist improves on these kind of services in three main ways:
+              <br />
+              <br />
 
-      <p>
-        According to Saint Thomas, The first precept of the natural law is that "good is to be done and pursued, and evil is to be avoided."
+              <ol type="1" className="list-decimal ml-6">
+                <li>We don't just block sexually explicit content. We disallow everything evil.</li>
+                <li>Unlike Canopy or Covenant eyes, Whitelist is based explicitly on Catholic moral teachings.</li>
+                <li>Our whitelist based approach, although more restrictive, is considerably safer.</li>
+              </ol>
+            </>
+          } 
+        />
 
-        To this end, the essential criteria for deciding whether material should be allowed is first deciding whether there is sufficient merit, and second in deciding
-
-         The short (but honest) answer is we don't fully know. This is a complex moral question with grave consequences if answered incorrectly. Our intention therefore is to move slowly and carefully under the guidance of the church.
-            
-        As we grow however, this question of deciding becomes a serious problem. "Hence this is the first precept of law, that "good is to be done and pursued, and evil is to be avoided." - Saint Thomas Aquinas, Summa Theologiae, I-II, q.94, a.2
-      </p>
-
-      <div className="divider">
-        <h1 className="text-2xl">Statistics</h1>
-      </div>
-
-      <h1>30 Channels, 180 videos</h1>
-      <h1>And counting!</h1>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut dolor iste voluptates officiis quaerat eos. Sunt cumque iste nam totam. Explicabo, excepturi provident sapiente architecto nulla asperiores animi ullam magni quas. Doloribus facere fuga voluptas animi aut. Exercitationem odio, est, assumenda quisquam eveniet, accusamus enim recusandae quas pariatur maxime nostrum.
-      </p>
-
-      <div className="divider">
-        <h1 className="text-2xl">Our Vision</h1>
-      </div>
-
-      <div className="divider">
-        <h1 className="text-2xl">Meet the team</h1>
       </div>
     </>
   )
