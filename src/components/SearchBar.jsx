@@ -6,6 +6,14 @@ function SearchBar() {
 
   const { category, setCategory } = useContext(FeedContext)
 
+  function capitalizeFirstChar(str) {
+    if (str.length === 0) {
+      return ""
+    } else {
+      return (str.charAt(0).toUpperCase() + str.slice(1))
+    }
+  }
+
   const categories = [
     'recommended',
     'religion',
@@ -14,7 +22,7 @@ function SearchBar() {
     'music',
     'history',
     'computer science',
-    'visual art'
+    'art'
   ]
 
   return (
@@ -25,11 +33,11 @@ function SearchBar() {
       <div className="flex flex-row items-center">
         <h1 className="mr-2">Browsing by:</h1>
         <div className="dropdown">
-          <div tabIndex="0" role="button" className="btn m-1">{`${category}`}</div>
+          <div tabIndex="0" role="button" className="btn m-1">{`${capitalizeFirstChar(category)}`}</div>
           <ul tabIndex="0" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
             {categories.map((cat) => (
               <li key={cat}>
-                <a onClick={() => setCategory(cat)}>{cat}</a>
+                <a onClick={() => setCategory(cat)}>{capitalizeFirstChar(cat)}</a>
               </li>
             ))}
           </ul>

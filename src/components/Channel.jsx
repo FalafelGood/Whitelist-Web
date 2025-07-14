@@ -6,10 +6,13 @@ function Channel({ channel }) {
   return (
     <div className="card bg-base-500 m-4 shadow-lg sm:max-w[500px] md:max-w-[1200px]">
       <h1 className="card-title text-4xl m-2">{`${channel.name}`}</h1>
-      <img className="rounded-xl m-2" src={`${channel.banner}`}></img>
+      <img className="rounded-xl m-2" 
+        src={`${channel.banner}`}
+        referrerPolicy="no-referrer"></img>
       <div className="flex m-2">
         <img src={`${channel.photo}`}
         className="rounded-full max-w-[100px] max-h-[100px] m-2"
+        referrerPolicy="no-referrer"
         />
         <div className="flex items-center">
           <p className="ml-2 mr-2 line-clamp-5">
