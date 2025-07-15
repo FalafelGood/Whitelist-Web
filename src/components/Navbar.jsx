@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Link} from 'react-router-dom'
 
-const buttons = ['Home', 'About', 'Contact', 'Support'];
+const buttons = ['Home', 'About', 'Contact'];
 
 function Navbar({ title='Whitelist (Demo!)' }) {
 
