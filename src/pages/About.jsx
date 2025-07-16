@@ -12,8 +12,8 @@ function About() {
         </div>
       </div>
 
-      <div className="divider mb-8">
-        <h1 className="text-2xl">Q&A</h1>
+      <div className="divider mb-12">
+        <h1 className="text-3xl">Q&A</h1>
       </div>
 
       <div className="flex flex-col justify-center items-center gap-4 mb-8">
@@ -43,7 +43,7 @@ function About() {
           title="Is Whitelist an educational platform?"
           body={
             <>
-              No, but we like the idea of developing a school-friendly version! YouTube is a fantastic educational resource, but it's dangerous in the classroom. With Whitelist, we could minimize distractions by limiting browsing activity to educational videos only.
+              No, but we like the idea of developing a school-friendly version! YouTube is a fantastic educational resource, but it can be dangerous in the classroom. With a modified version of Whitelist, we could minimize distractions by limiting browsing activity to educational videos only.
             </>
           } 
         />
@@ -57,9 +57,9 @@ function About() {
               <br />
 
               <ol type="1" className="list-decimal ml-6">
-                <li>We don't just block or warn about sexually explicit content. We disallow everything evil.</li>
+                <li>We don't just block or warn users about sexually explicit content. We disallow everything evil.</li>
                 <li>Unlike Canopy or Covenant eyes, Whitelist is explicitly Catholic.</li>
-                <li>Our whitelist based approach, although more restrictive, is considerably safer since all content is approved in advance by our team.</li>
+                <li>Our whitelist based approach, although more restrictive, is considerably safer since all content is approved in advance.</li>
               </ol>
             </>
           } 
@@ -81,7 +81,7 @@ function About() {
               For a demo like this, no. 
               <br />
               <br />
-              At scale however, this becomes a valid concern. Using the YouTube API for commercial purposes means we have to pay YouTube a subscription fee and abide by their terms of service. Being dependent on a powerful third-party is obviously a risk we'd like to mitigate.
+              At scale however, this becomes a valid concern. Using the YouTube API for commercial purposes means paying YouTube a subscription fee and abiding by their terms of service. Being dependent on a powerful third-party is obviously a risk we'd like to mitigate.
             </>
           } 
         />
@@ -90,27 +90,114 @@ function About() {
           title="How will you decide what goes on the whitelist?"
           body={
             <>
-              Candidate videos will be graded on their merits and hazards according to an open standard we're developing. If a video has sufficient merit and a tolerable depiction of evil, the video will be added to the Whitelist.
+              Candidate videos will be graded on their merits and hazards according to an open standard we're developing called the Catholic Rating System. If a video has sufficient merit and a tolerable treatment of evil, the video will be added to the Whitelist.
               <br />
               <br />
               Naturally, what is “tolerable” will depend on the viewer's maturity. Parents and sensitive individuals will be able to filter out content based on the ratings they are comfortable with.
+            </>
+          } 
+        />
+      </div>
+
+      <div className="divider mt-12 mb-12">
+        <h1 className="text-3xl">The Catholic Rating System</h1>
+      </div>
+
+      <div className="hero">
+        <div className="hero-content text-center flex-col min-h-[100px]">
+        <p className='mr-4 ml-4 mb-8 text-2xl font-light'>
+          The Catholic Rating System (CRS) is an open standard we're developing that classifies the merits and hazards of video content. Feedback or other contributions are most welcome!
+        </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center items-center gap-4 mb-8">
+
+        <DropBox 
+          title="What kinds of media will the CRS classify?"
+          body={
+            <>
+              Our primary goal is to rate YouTube videos, though we hope the CRS will eventually be used for all kinds of media including books, films, podcasts, and articles.
             </>
           } 
         />
 
         <DropBox 
-          title="What is your rating system?"
+          title="Why consider the merits of a video? Why not just focus on its hazards?"
           body={
             <>
-              Candidate videos will be graded on their merits and hazards according to an open standard we're developing. If a video has sufficient merit and a tolerable depiction of evil, the video will be added to the Whitelist.
-              <br />
-              <br />
-              Naturally, what is “tolerable” will depend on the viewer's maturity. Parents and sensitive individuals will be able to filter out content based on the ratings they are comfortable with.
+              According to Saint Thomas, the moral life consists of both avoiding the evil and pursuing the good. We want our rating system to incorperate both of these aspects.
             </>
           } 
         />
 
       </div>
+
+      <div className="divider mt-12 mb-12">
+        <h3 className="text-xl">Classifying Virtue</h3>
+      </div>
+
+      <div className="hero">
+        <div className="hero-content text-center flex-col min-h-[100px]">
+        <p className='mr-4 ml-4 mb-8 text-lg font-light'>
+          We intend to rate the virtues of a video using an integer scale where the higher the score, the higher the aim of the video. Any positive score is suitable for the whitelist, but parents and teachers will have the option to filter out content that falls below a certain score.
+          <br />
+          <br />
+          It's important to note that a high score does not necessarily mean the video is high quality (and vice-versa). All the score describes is what the video intends to be. Some videos have lofty aims, while others are just meant for recreation. Both are valid in their proper context!
+        </p>
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center items-center">
+      <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 w-2/3">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr className="bg-base-300">
+              <th>Tier</th>
+              <th>Description</th>
+              <th>Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="bg-red-200">
+              <td>0</td>
+              <td>Videos in this tier have little-to-no merit and are <b>not permitted</b> on the whitelist. They are vapid, low-value, and unprofitable to watch.</td>
+              <td>"Brain-rot", unboxing videos, click-bait, mukbang, etc.</td>
+            </tr>
+            {/* row 1 */}
+            <tr className="">
+              <td>1</td>
+              <td>Videos in this tier promote the virtue of eutrapelia or recreation. They may contain quality humor, games, or other light-hearted material that is ordered towards relaxation. </td>
+              <td>Vlogs, nature videos, "slice-of-life", hobbies, comedy, etc.</td>
+            </tr>
+            {/* row 2 */}
+            <tr className="bg-base-300">
+              <td>2</td>
+              <td>Videos in this tier promote the virtue of art (ars). They provide tutorials or explanations for a craft, hobby, or other practical skill.</td>
+              <td>"How-to" videos.</td>
+            </tr>
+            {/* row 3 */}
+            <tr className="">
+              <td>3</td>
+              <td>These videos promote the virtue of knowledge (scientia). They offer insights into the truth of a subject, approaching it in a systematic or logical way.</td>
+              <td>Lectures, debates, online classes, historical documentaries, long-form discussions, etc.</td>
+            </tr>
+            {/* row 4 */}
+            <tr className="bg-base-300">
+              <td>4</td>
+              <td>Videos in this category promote the theological virtures of faith, hope and love. They may be grounded in Divine revalation, provide insight into Catholic spirituality</td>
+              <td>Apologetics content, </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <div className="divider mt-12 mb-12">
+        <h3 className="text-xl">Classifying Hazards</h3>
+      </div>
+
     </>
   )
 }
