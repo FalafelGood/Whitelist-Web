@@ -8,6 +8,8 @@ export const FeedProvider = ({children}) => {
   const [feed, setFeed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState("recommended");
+  // This doesn't really have anything to do with the feed, but it's used by the Home page.
+  const [showModal, setShowModal] = useState(true);
 
   // Run this effect once on page load:
   useEffect(() => {
@@ -26,7 +28,9 @@ export const FeedProvider = ({children}) => {
     feed,
     isLoading,
     category,
-    setCategory
+    setCategory,
+    showModal,
+    setShowModal
   }}>
     {children}
   </FeedContext.Provider>
