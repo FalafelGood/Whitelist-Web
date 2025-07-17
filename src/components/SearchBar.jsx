@@ -28,7 +28,7 @@ function SearchBar() {
   return (
     <div className="navbar bg-base-200 shadow-sm flex flex-col space-between w-full">
 
-      <input type="text" placeholder="Search the Whitelist" className="input input-neutral input-lg mb-2 mt-2 w-7/8 max-w-[800px]"/>
+      {/* <input type="text" placeholder="Search the Whitelist" className="input input-neutral input-lg mb-2 mt-2 w-7/8 max-w-[800px]"/> */}
 
       <div className="flex flex-row items-center">
         <h1 className="mr-2">Browsing by:</h1>
