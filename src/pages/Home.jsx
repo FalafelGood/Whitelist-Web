@@ -7,15 +7,9 @@ function Home() {
 
   const {feed, isLoading} = useContext(FeedContext);
 
-  // async function getChannelInfo(handle) {
-  //   const API_KEY = "AIzaSyDDh7jUNJd5KM0-1RlrP38-r7z7mdzsbWk";
-  //   const URL = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${handle}&key=` + API_KEY
-
-  //   console.log(URL);
-  //   const response = await fetch(URL);
-  //   const channelData = await response.json();
-  //   console.log(channelData.items[0].snippet);
-  // }
+  // useEffect(() => {
+  //   document.getElementById('my_modal_2').showModal()
+  // }, [])
 
   return( isLoading ? (<h1>Loading...</h1>) :
     <div>

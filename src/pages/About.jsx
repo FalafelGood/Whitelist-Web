@@ -6,7 +6,7 @@ function About() {
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[340px]">
         <h1 className="text-6xl mb-4">Internet without evil</h1>
-        <p className='mr-4 ml-4 text-2xl font-light'>
+        <p className='mr-4 ml-4 text-xl font-light'>
           Whitelist hopes to be a content curation service based on Catholic moral teachings. Our goal is to find (and platform) the most edifying videos on the internet using a responsible combination of machine learning and human moderation.
         </p>
         </div>
@@ -43,7 +43,7 @@ function About() {
           title="Is Whitelist an educational platform?"
           body={
             <>
-              No, but we like the idea of developing a school-friendly version! YouTube is a fantastic educational resource, but it can be dangerous in the classroom. With a modified version of Whitelist, we could minimize distractions by limiting browsing activity to educational videos only.
+              No, but we like the idea of developing a school-friendly version! YouTube is a fantastic educational resource, but it can be dangerous in the classroom. With a modified version of Whitelist, we could improve the experience by limiting browsing activity to educational videos only.
             </>
           } 
         />
@@ -105,8 +105,8 @@ function About() {
 
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[100px]">
-        <p className='mr-4 ml-4 mb-8 text-2xl font-light'>
-          The Catholic Rating System (CRS) is an open standard we're developing that classifies the merits and hazards of video content. Feedback or other contributions are most welcome!
+        <p className='mr-4 ml-4 mb-8 text-lg font-light'>
+          The Catholic Rating System (CRS) is an open standard we're developing that classifies the merits and hazards of video content. It will be the backbone of Whitelist. Feedback or other contributions are most welcome!
         </p>
         </div>
       </div>
@@ -126,7 +126,7 @@ function About() {
           title="Why consider the merits of a video? Why not just focus on its hazards?"
           body={
             <>
-              According to Saint Thomas, the moral life consists of both avoiding the evil and pursuing the good. We want our rating system to incorperate both of these aspects.
+              According to Saint Thomas, the moral life consists of both avoiding the evil and pursuing the good. We want our rating system to incorperate both of these aspects!
             </>
           } 
         />
@@ -140,10 +140,10 @@ function About() {
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[100px]">
         <p className='mr-4 ml-4 mb-8 text-lg font-light'>
-          We intend to rate the virtues of a video using an integer scale where the higher the score, the higher the aim of the video. Any positive score is suitable for the whitelist, but parents and teachers will have the option to filter out content that falls below a certain score.
+          Our preliminary approach for classifying virtue is an integer scale that indicates the intention of the video. The higher the score, the higher its aim. Any positive score is theoretically suitable for the whitelist, but parents and teachers will be able to filter content based on score.
           <br />
           <br />
-          It's important to note that a high score does not necessarily mean the video is high quality (and vice-versa). All the score describes is what the video intends to be. Some videos have lofty aims, while others are just meant for recreation. Both are valid in their proper context!
+          It's important to note that a high score does not necessarily mean the video is high quality (and vice-versa). All the score describes is the intention of the video. Some videos have lofty aims, while others are just meant for recreation. Both are valid in their proper context!
         </p>
         </div>
       </div>
@@ -180,14 +180,16 @@ function About() {
             {/* row 3 */}
             <tr className="">
               <td>3</td>
-              <td>These videos promote the virtue of knowledge (scientia). They offer insights into the truth of a subject, approaching it in a systematic or logical way.</td>
+              <td>These videos promote the virtue of knowledge (scientia) through teaching.</td>
               <td>Lectures, debates, online classes, historical documentaries, long-form discussions, etc.</td>
             </tr>
             {/* row 4 */}
             <tr className="bg-base-300">
               <td>4</td>
-              <td>Videos in this category promote the theological virtures of faith, hope and love. They may be grounded in Divine revalation, provide insight into Catholic spirituality</td>
-              <td>Apologetics content, </td>
+              <td>
+                Videos in this category promote the theological virtures of faith, hope and love. They may be grounded in Divine revalation, provide insight into Catholic spirituality, or, (without being explicitly Catholic) promote the love of truth, goodness, and beauty.
+                </td>
+              <td>Apologetics content, formation, philosophy</td>
             </tr>
           </tbody>
         </table>
@@ -196,6 +198,23 @@ function About() {
 
       <div className="divider mt-12 mb-12">
         <h3 className="text-xl">Classifying Hazards</h3>
+      </div>
+
+      <div className="hero">
+        <div className="hero-content text-center flex-col min-h-[100px]">
+          <p className='mr-4 ml-4 mb-8 text-lg font-light'>
+            Our initial attempt at classifying video hazards is inspired by the NFPA 704 -- a chemistry standard used to identify dangerous materials. It has three colored squares where each square contains a number that indicates the severity of a threat. The bottom white square can be optionally used to specify a specific hazard.
+          </p>
+          <div className="flex flex-col justify-center items-center">
+            <img 
+              src="https://risk-safety.utdallas.edu/files/2022/12/health-fire-hazard-chart-fire-and-life--1024x1024.jpg"
+              className="w-[400px]"
+            />
+          </div>
+          <p className="mt-8 mr-4 ml-4 mb-8 text-lg font-light">
+            Our goal is to develop a similar standard for moral hazards. We're currently diliberating on three different approaches.
+          </p>
+        </div>
       </div>
 
     </>
