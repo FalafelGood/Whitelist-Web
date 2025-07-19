@@ -9,7 +9,7 @@ function Navbar({ title='Whitelist (Demo!)' }) {
 
   return (
     <nav className='navbar shadow-lg bg-linear-to-r from-black to-white text-neutral-content w-full'>
-      <img src="../src/assets/white-no-text.svg" width="50px" className='ml-4'/>
+      <img src="../white-no-text.svg" width="50px" className='ml-4'/>
       <div className="container mx-auto">
         <div className="flex-none px-2 mx-2">
           <div className="flex-none px-2 mx-2">
