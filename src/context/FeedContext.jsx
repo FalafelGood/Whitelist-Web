@@ -11,14 +11,39 @@ export const FeedProvider = ({children}) => {
   // This doesn't really have anything to do with the feed, but it's used by the Home page.
   const [showModal, setShowModal] = useState(true);
 
-  // Run this effect once on page load:
+
+  // Temporary "API" for the demo
+  async function getVideos(category) {
+    const response = await fetch("../whitelist.json")
+    const data = await response.json();
+    let videos = []
+
+    if (category === "recommended") {
+      data.whitelist.map((channel, idx) => {
+        if (channel.recommended) {
+          videos.push(channel)
+        }
+      })
+    } else {
+      data.whitelist.map((channel, idx) => {
+        if (channel.category === category) {
+          videos.push(channel)
+        }
+      })
+    }
+    return videos;
+  }
+
+
+  // Run this effect once on page load, or whenever the category changes
   useEffect(() => {
     const fetchFeed = async () => {
-      const request = (category === "recommended" ? "http://localhost:5000/whitelist/?recommended=true" : `http://localhost:5000/whitelist/?category=${category}`);
-      const response = await fetch(request);
-      const data = await response.json();
-      console.log(data);
-      setFeed(data);
+      // const request = (category === "recommended" ? "http://localhost:5000/whitelist/?recommended=true" : `http://localhost:5000/whitelist/?category=${category}`);
+      // const response = await fetch(request);
+      // const data = await response.json();
+      // setFeed(data);
+      const videos = await getVideos(category);
+      setFeed(videos);
       setIsLoading(false);
     }
     fetchFeed();
