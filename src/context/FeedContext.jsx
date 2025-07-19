@@ -12,6 +12,18 @@ export const FeedProvider = ({children}) => {
   const [showModal, setShowModal] = useState(true);
 
 
+  function shuffleArray(array) {
+    let currentIndex = array.length, randomIndex;
+
+    while(currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      // Shuffle elements with array destructuring
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    return array;
+  }
+
   // Temporary "API" for the demo
   async function getVideos(category) {
     const response = await fetch("../whitelist.json")
@@ -31,7 +43,7 @@ export const FeedProvider = ({children}) => {
         }
       })
     }
-    return videos;
+    return shuffleArray(videos);
   }
 
 
