@@ -14,7 +14,7 @@ function VideoPage() {
         <VideoPlayer videoId={`${videoId}`}/>
         <div className="flex gap-4">
           <Link to="/" className="btn btn-primary">Home</Link>
-          <Link to="/channel?cid=@HarpaDeiMusic" className="btn btn-primary">Visit channel</Link>
+          {/* <Link to="/channel?cid=@HarpaDeiMusic" className="btn btn-primary">Visit channel</Link> */}
         </div>
       </div>
     </div>
