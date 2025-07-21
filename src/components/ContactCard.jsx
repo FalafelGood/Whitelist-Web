@@ -4,8 +4,8 @@ import { IoLogoGithub } from "react-icons/io";
 
 function ContactCard({name, photo, title, blurb, email, linkedin, github}) {
   return (
-    <div className="card card-side bg-base-100 w-[550px] shadow-lg border border-width-1">
-      <figure>
+    <div className="card card-side bg-base-100 w-1/2 max-w-[550px] min-w-[375px] shadow-lg border border-width-1">
+      <figure className="">
         <div className="avatar">
           <div className="w-[250px] rounded-xl m-4">
             <img src={photo} />
@@ -14,7 +14,7 @@ function ContactCard({name, photo, title, blurb, email, linkedin, github}) {
       </figure>
 
       <div className="card-body">
-        <h2 className="card-title text-2xl">{name}</h2>
+        <h2 className="card-title text-2xl text-nowrap">{name}</h2>
         <h3 className="text-xl">{title}</h3>
         <p className="w-[200px] text-gray-600">
           {blurb}
