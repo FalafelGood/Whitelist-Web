@@ -1,5 +1,6 @@
 // This context is responsible for the feed -- essentially a list of videos filtered by a given category.
 import {createContext, useState, useEffect} from 'react';
+import { neon } from '@neondatabase/serverless';
 
 const FeedContext = createContext();
 
@@ -26,24 +27,55 @@ export const FeedProvider = ({children}) => {
 
   // Temporary "API" for the demo
   async function getVideos(category) {
-    const response = await fetch("../whitelist.json")
-    const data = await response.json();
-    let videos = []
+    // Old code:
+    // const response = await fetch("../whitelist.json")
+    // const data = await response.json();
+    // let videos = []
+    
+    // if (category === "recommended") {
+    //   data.whitelist.map((channel, idx) => {
+    //     if (channel.recommended) {
+    //       videos.push(channel)
+    //     }
+    //   })
+    // } else {
+    //   data.whitelist.map((channel, idx) => {
+    //     if (channel.category === category) {
+    //       videos.push(channel)
+    //     }
+    //   })
+    // }
+    // return shuffleArray(videos);
 
-    if (category === "recommended") {
-      data.whitelist.map((channel, idx) => {
-        if (channel.recommended) {
-          videos.push(channel)
-        }
-      })
-    } else {
-      data.whitelist.map((channel, idx) => {
-        if (channel.category === category) {
-          videos.push(channel)
-        }
-      })
+    // New code:
+    try {
+      const response = await fetch('api/channels');
+      if (!response.ok) {
+        throw new Error( `HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      let channels = data.channels || [];
+      let feed = [];
+
+      // Filter videos based on category
+      if (category === "recommended") {
+        channels.map((channel, idx) => {
+          if (channel.recommended) {
+            feed.push(channel)
+          }
+        })
+      } else {
+        channels.map((channel, idx) => {
+          if (channel.category === category) {
+            feed.push(channel)
+          }
+        })
+      }
+      return shuffleArray(feed);
+    } catch (error) {
+      console.error('Error fetching videos:', error);
+      return [];
     }
-    return shuffleArray(videos);
   }
 
 

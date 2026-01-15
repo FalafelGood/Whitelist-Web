@@ -7,10 +7,10 @@ function Channel({ channel }) {
     <div className="card bg-base-500 m-4 shadow-lg sm:max-w[500px] md:max-w-[1200px]">
       <h1 className="card-title text-4xl m-2">{`${channel.name}`}</h1>
       <img className="rounded-xl m-2" 
-        src={`${channel.banner_url}`}
+        src={`${channel.banner}`}
         referrerPolicy="no-referrer"></img>
       <div className="flex m-2">
-        <img src={`${channel.pfp_url}`}
+        <img src={`${channel.photo}`}
         className="rounded-full max-w-[100px] max-h-[100px] m-2"
         referrerPolicy="no-referrer"
         />
@@ -25,10 +25,10 @@ function Channel({ channel }) {
       className="btn btn-primary ml-4 mr-4">
       Visit Channel
       </Link>
-      {/* <div className="grid sm:grid-cols:1 md:grid-cols-2 place-items-center">
+      <div className="grid sm:grid-cols:1 md:grid-cols-2 place-items-center">
         <VideoCard video={channel.videos[0]}/>
         <VideoCard video={channel.videos[1]}/>
-      </div> */}
+      </div>
     </div>
   );
 }
