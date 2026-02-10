@@ -27,26 +27,6 @@ export const FeedProvider = ({children}) => {
 
   // Temporary "API" for the demo
   async function getVideos(category) {
-    // Old code:
-    // const response = await fetch("../whitelist.json")
-    // const data = await response.json();
-    // let videos = []
-    
-    // if (category === "recommended") {
-    //   data.whitelist.map((channel, idx) => {
-    //     if (channel.recommended) {
-    //       videos.push(channel)
-    //     }
-    //   })
-    // } else {
-    //   data.whitelist.map((channel, idx) => {
-    //     if (channel.category === category) {
-    //       videos.push(channel)
-    //     }
-    //   })
-    // }
-    // return shuffleArray(videos);
-
     // New code:
     try {
       const response = await fetch('api/channels');
