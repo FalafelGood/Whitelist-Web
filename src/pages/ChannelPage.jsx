@@ -4,36 +4,59 @@ import { useState, useEffect } from 'react'
 
 function ChannelPage() {
 
+  // State
+  const [videos, setVideos] = useState([]);
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  // Constants
   const [searchParams] = useSearchParams();
   const channelId = searchParams.get('cid');
 
-  const [videos, setVideos] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
+    setIsLoading(true);
+    setError(false);
     if (!channelId) {
+      console.log("channelId not found!");
       setIsLoading(false);
       return;
     }
-
     fetch(`/api/channel_videos?channel=${channelId}`)
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP code ${res.status}`);
+        }
+        return res.json();
+      })
+    .catch(error => {
+      console.error("Database error:", error);
+      setError(true);
+      setIsLoading(false);
+      throw error; // chain will continue unless I throw here.
+    })
     .then(data => {
-      setVideos(data.videos);
+      setName(data?.name ?? '');
+      setVideos(data?.videos ?? []);
       setIsLoading(false);
     })
-
   }, [channelId]);
 
+  // Error case -- we failed to load from the backend.
+  if (error) {
+    return <h1>Something went wrong! Try reloading the page</h1>
+  }
+
+  // Base case -- we're either still loading or we're ready to show the view
   return isLoading ? (
     <h1>Loading...</h1>
   ) : (
     <>
-      <h1 className="card-title text-4xl ml-8 mt-8">Videos from TODO</h1>
+      <h1 className="card-title text-4xl ml-8 mt-8">Videos from {name}</h1>
       <Link to="/" className="btn btn-primary ml-8 mr-8 mt-6">
         Home
       </Link>
-      <div className="grid grid-cols:1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 place-items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 place-items-center">
         {videos.map((video, idx) => (
           <VideoCard key={idx} video={video} />
         ))}
