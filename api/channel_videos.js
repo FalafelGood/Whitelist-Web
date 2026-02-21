@@ -20,6 +20,9 @@ export default async function handler(request) {
 
     const url = new URL(request.url);
     const channel = url.searchParams.get('channel');
+    const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
+    const limit = Math.min(12, Math.max(1, parseInt(url.searchParams.get('limit') || '12', 10)));
+    const offset = (page - 1) * limit;
 
     if (!channel) {
         return new Response(
@@ -30,14 +33,16 @@ export default async function handler(request) {
 
     try {
         const sql = neon(process.env.VITE_NEON_DATABASE_URL);
-        const [packagedName, videos] = await sql.transaction([
+        const [packagedName, videos, packagedNumVideos] = await sql.transaction([
             sql`SELECT name FROM channels WHERE yt_channel_id = ${channel}`,
-            sql`SELECT * FROM videos WHERE yt_channel_id = ${channel}`
+            sql`SELECT * FROM videos WHERE yt_channel_id = ${channel} ORDER BY publishedtime DESC LIMIT ${limit} OFFSET ${offset}`,
+            sql`SELECT COUNT(*)::int AS total FROM videos WHERE yt_channel_id = ${channel}`
         ])
         // packagedName 
         const name = packagedName[0].name;
+        const numVideos = packagedNumVideos[0].total;
         return new Response(
-            JSON.stringify({ name, videos }),
+            JSON.stringify({ name, numVideos, videos }),
             { status: 200, headers}
         );
     } catch (error) {
