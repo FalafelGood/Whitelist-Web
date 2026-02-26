@@ -10,7 +10,7 @@ function ChannelPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
-  const [numVideos, setNumVideos] = useState(0);
+  const [numVideos, setNumVideos] = useState(0); // How many videos the channel has
 
   // Constants
   const [searchParams] = useSearchParams();

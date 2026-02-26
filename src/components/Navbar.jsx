@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const buttons = ['Home', 'About', 'Contact'];
 
-function Navbar({ title='Whitelist (Demo!)' }) {
+function Navbar({ title='Whitelist' }) {
 
   const [activeBtn, setActiveBtn] = useState(0);
 

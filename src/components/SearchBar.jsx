@@ -15,7 +15,7 @@ function SearchBar() {
   }
 
   const categories = [
-    'recommended',
+    'all',
     'religion',
     'math',
     'science',

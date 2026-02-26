@@ -8,10 +8,7 @@ export const FeedProvider = ({children}) => {
 
   const [feed, setFeed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [category, setCategory] = useState("recommended");
-  // This doesn't really have anything to do with the feed, but it's used by the Home page.
-  const [showModal, setShowModal] = useState(true);
-
+  const [category, setCategory] = useState("all");
 
   function shuffleArray(array) {
     let currentIndex = array.length, randomIndex;
@@ -25,8 +22,7 @@ export const FeedProvider = ({children}) => {
     return array;
   }
 
-  // Temporary "API" for the demo
-  async function getVideos(category) {
+  async function getChannels(category) {
     // New code:
     try {
       const response = await fetch('api/channels');
@@ -38,12 +34,8 @@ export const FeedProvider = ({children}) => {
       let feed = [];
 
       // Filter videos based on category
-      if (category === "recommended") {
-        channels.map((channel, idx) => {
-          if (channel.recommended) {
-            feed.push(channel)
-          }
-        })
+      if (category === "all" || category === undefined) {
+        feed = [...channels]
       } else {
         channels.map((channel, idx) => {
           if (channel.category === category) {
@@ -58,15 +50,10 @@ export const FeedProvider = ({children}) => {
     }
   }
 
-
   // Run this effect once on page load, or whenever the category changes
   useEffect(() => {
     const fetchFeed = async () => {
-      // const request = (category === "recommended" ? "http://localhost:5000/whitelist/?recommended=true" : `http://localhost:5000/whitelist/?category=${category}`);
-      // const response = await fetch(request);
-      // const data = await response.json();
-      // setFeed(data);
-      const videos = await getVideos(category);
+      const videos = await getChannels(category);
       setFeed(videos);
       setIsLoading(false);
     }
@@ -78,8 +65,6 @@ export const FeedProvider = ({children}) => {
     isLoading,
     category,
     setCategory,
-    showModal,
-    setShowModal
   }}>
     {children}
   </FeedContext.Provider>
