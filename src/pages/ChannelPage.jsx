@@ -1,84 +1,65 @@
 import VideoCard from '../components/VideoCard'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 function ChannelPage() {
 
-  // State
-  const [videos, setVideos] = useState([]);
-  const [name, setName] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [numVideos, setNumVideos] = useState(0); // How many videos the channel has
-
-  // Constants
+  const limit = 12; // Number of videos per page
   const [searchParams] = useSearchParams();
   const channelId = searchParams.get('cid');
-  const limit = 12; // Number of videos per page
-  const isLastPage = videos.length >= numVideos;
 
-  useEffect(() => {
-    setIsLoading(true);
-    setError(false);
-    if (!channelId) {
-      console.log("channelId not found!");
-      setIsLoading(false);
-      return;
+  if (!channelId) {
+    return <h1>Uh-oh! This channel isn't available!</h1>
+  }
+
+  async function loadVideos({ pageParam = 1 }) {
+    const res = await fetch(
+      `/api/channel_videos?channel=${channelId}&limit=${limit}&page=${pageParam}`
+    )
+
+    if (!res.ok) {
+      throw new Error(`HTTP code ${res.status}`);
     }
-    fetch(`/api/channel_videos?channel=${channelId}&limit=${limit}`)
-    .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP code ${res.status}`);
-        }
-        return res.json();
-      })
-    .catch(error => {
-      console.error("Database error:", error);
-      setError(true);
-      setIsLoading(false);
-      throw error; // chain will continue unless I throw here.
-    })
-    .then(data => {
-      setName(data?.name ?? '');
-      setVideos(data?.videos ?? []);
-      setNumVideos(data?.numVideos ?? 0);
-      setIsLoading(false);
-    })
-  }, [channelId]);
 
-  function handleLoadMore() {
-    fetch(`/api/channel_videos?channel=${channelId}&page=${page+1}`)
-    .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP code ${res.status}`);
-        }
-        return res.json();
-      })
-    .catch(error => {
-      console.error("Database error:", error);
-      setError(true);
-      setIsLoading(false);
-      throw error; // chain will continue unless I throw here.
-    })
-    .then(data => {
-      console.log("Setting new videos");
-      setName(data?.name ?? '');
-      setVideos(prev => [...prev, ...data.videos]);
-      setIsLoading(false);
-      setPage(page+1);
-    })
+    return res.json();
   }
 
-  // Error case -- we failed to load from the backend.
-  if (error) {
-    return <h1>Something went wrong! Try reloading the page</h1>
+  const {
+    data,
+    isPending,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useInfiniteQuery({ 
+    queryKey: ['channelVideos', channelId], 
+    queryFn: loadVideos,
+    getNextPageParam: (lastPage, allPages) => {
+      const totalLoaded = allPages.reduce(
+        (sum, page) => sum + (page.videos?.length ?? 0),
+        0
+      );
+      return totalLoaded < (lastPage.numVideos ?? 0)
+        ? allPages.length + 1
+        : undefined;
+    },
+    enabled: !!channelId
+  });
+
+  if (isPending) {
+    return <h1>Loading...</h1>
   }
 
-  // Base case -- we're either still loading or we're ready to show the view
-  return isLoading ? (
-    <h1>Loading...</h1>
-  ) : (
+  if (isError) {
+    return <h1>Something went wrong!</h1>
+  }
+
+  // Flatten data
+  const pages = data?.pages ?? [];
+  const name = pages[0]?.name ?? '';
+  const videos = pages.flatMap(page => page.videos ?? []);
+
+  return (
     <>
       <h1 className="card-title text-4xl ml-8 mt-8">Videos from {name}</h1>
       <div className="flex items-center justify-center">
@@ -87,12 +68,18 @@ function ChannelPage() {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 place-items-center">
-        {videos.map((video, idx) => (
-          <VideoCard key={idx} video={video} />
+        {videos.map((video) => (
+          <VideoCard key={video.yt_video_id} video={video} />
         ))}
       </div>
-      <div class="flex items-center justify-center">
-        <button className="btn btn-primary w-48 ml-4 mr-4 mb-8" onClick={handleLoadMore} disabled={isLastPage}>Load more</button>
+      <div className="flex items-center justify-center">
+        <button 
+          className="btn btn-primary w-48 ml-4 mr-4 mb-8"
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage ? 'Loading...' : 'Load more'}
+        </button>
       </div>
     </>
   )
