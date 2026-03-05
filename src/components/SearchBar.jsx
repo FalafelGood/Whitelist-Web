@@ -1,10 +1,6 @@
 // import input from "daisyui/components/input";
-import { useContext } from 'react';
-import FeedContext from '../context/FeedContext';
 
-function SearchBar() {
-
-  const { category, setCategory } = useContext(FeedContext)
+function SearchBar({ category, setCategory }) {
 
   function capitalizeFirstChar(str) {
     if (str.length === 0) {

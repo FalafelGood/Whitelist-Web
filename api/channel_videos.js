@@ -21,7 +21,7 @@ export default async function handler(request) {
     const url = new URL(request.url);
     const channel = url.searchParams.get('channel');
     const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
-    const limit = Math.min(12, Math.max(1, parseInt(url.searchParams.get('limit') || '12', 10)));
+    const limit = parseInt(url.searchParams.get('limit') || '12', 10);
     const offset = (page - 1) * limit;
 
     if (!channel) {

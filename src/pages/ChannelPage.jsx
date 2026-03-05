@@ -16,11 +16,9 @@ function ChannelPage() {
     const res = await fetch(
       `/api/channel_videos?channel=${channelId}&limit=${limit}&page=${pageParam}`
     )
-
     if (!res.ok) {
       throw new Error(`HTTP code ${res.status}`);
     }
-
     return res.json();
   }
 

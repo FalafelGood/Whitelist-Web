@@ -22,12 +22,25 @@ export default async function handler(request) {
         );
     }
 
+    const url = new URL(request.url);
+    const category = url.searchParams.get('category');
+    const seed = url.searchParams.get('seed') || crypto.randomUUID();
+    const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
+    const limit = parseInt(url.searchParams.get('limit') || '12', 10);
+    const offset = (page - 1) * limit;
+
     try {
         // Initialize Neon client with environment variable containing handshake
         const sql = neon(process.env.VITE_NEON_DATABASE_URL);
-        const channels = await sql`SELECT * FROM channels`;
+        let channels = [];
+
+        if (!category || category==="all") {
+            channels = await sql`SELECT * FROM channels ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+        } else {
+            channels = await sql`SELECT * FROM channels WHERE category = ${category} ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+        }
         return new Response(
-            JSON.stringify({ channels }),
+            JSON.stringify({ seed, channels }),
             { status: 200, headers }
         );
 
