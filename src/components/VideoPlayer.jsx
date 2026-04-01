@@ -3,7 +3,7 @@ function VideoPlayer({ videoId, width=640, height=390}) {
   return (
     <iframe
       // Use CSS styling to size iframe... This is admittedly a bit janky, but I couldn't get tailwind to do what I wanted.
-      style={{width: "80vw", height: "80vh"}}
+      style={{width: "80vw", height: "50vh"}}
       id="player" 
       type="text/html" 
       // width={`${width}`} 
