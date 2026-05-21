@@ -35,9 +35,9 @@ export default async function handler(request) {
         let channels = [];
 
         if (!category || category==="all") {
-            channels = await sql`SELECT * FROM channels WHERE channel_status = 'approved' ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+            channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
         } else {
-            channels = await sql`SELECT * FROM channels WHERE channel_status = 'approved' AND category = ${category} ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+            channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' AND category = ${category} ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
         }
         return new Response(
             JSON.stringify({ seed, channels }),
