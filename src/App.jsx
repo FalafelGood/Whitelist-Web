@@ -9,6 +9,7 @@ import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import VideoPage from './pages/VideoPage.jsx'
 import ChannelPage from './pages/ChannelPage.jsx'
+import SearchPage from './pages/SearchPage.jsx'
 // import './App.css'
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ function App() {
             <Route path='/contact' element={<Contact />}/>
             <Route path='/watch/*' element={<VideoPage />}/>
             <Route path='/channel/*' element={<ChannelPage />}/>
+            <Route path='/search/*' element={<SearchPage />}/>
           </Routes>
         </div>
       </Router>

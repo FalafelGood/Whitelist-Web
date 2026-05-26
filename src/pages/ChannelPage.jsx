@@ -1,4 +1,5 @@
 import VideoCard from '../components/VideoCard'
+import Loading from './Loading';
 import { Link, useSearchParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 
@@ -45,7 +46,11 @@ function ChannelPage() {
   });
 
   if (isPending) {
-    return <h1>Loading...</h1>
+    return (
+      <>
+        <Loading/>
+      </>
+    )
   }
 
   if (isError) {

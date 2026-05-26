@@ -3,6 +3,7 @@ import { useState, useContext } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Channel from '../components/Channel'
 import SearchBar from '../components/SearchBar'
+import Loading from './Loading'
 
 function Home() {
 
@@ -44,7 +45,11 @@ function Home() {
   });
 
   if (isPending) {
-    return <h1>Loading...</h1>
+    return (
+      <>
+        <Loading/>
+      </>
+    )
   }
 
   if (isError) {
