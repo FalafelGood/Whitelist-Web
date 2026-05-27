@@ -1,10 +1,12 @@
 import VideoCard from '../components/VideoCard'
 import {Link} from 'react-router-dom'
 
-function Channel({ channel }) {
+// N.B. "className" is an optional prop is used in SearchPage.jsx to squeeze the channel component into 
+// the search results a little bit more nicely.
+function Channel({ channel, className = 'm-4 sm:max-w-[500px] md:max-w-[1200px]' }) {
 
   return (
-    <div className="card card-border bg-base-400 m-4 shadow-lg sm:max-w[500px] md:max-w-[1200px]">
+    <div className={`card card-border bg-base-400 shadow-lg w-full ${className}`}>
       <h1 className="card-title text-4xl m-2">{`${channel.name}`}</h1>
       <img className="rounded-xl m-2" 
         src={`${channel.banner_url}`}

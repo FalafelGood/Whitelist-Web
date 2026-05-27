@@ -2,8 +2,8 @@
 import { useState, useContext } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Channel from '../components/Channel'
-import SearchBar from '../components/SearchBar'
 import Loading from './Loading'
+import CategoriesBar from '../components/CategoriesBar';
 
 function Home() {
 
@@ -61,7 +61,7 @@ function Home() {
 
   return (
     <div>
-      <SearchBar category={category} setCategory={setCategory}/>
+      <CategoriesBar category={category} setCategory={setCategory} />
       <div className="grid md:grid-cols:1 lg:grid-cols-2 place-items-center 2xl:grid-cols-3">
         {channels.map((channel, idx) => (
           <Channel key={idx} channel={channel} />

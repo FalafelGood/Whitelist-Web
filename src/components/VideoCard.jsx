@@ -12,6 +12,8 @@ function VideoCard({ video }) {
   const ratingBadge =
     RATING_BADGE_CLASS[video.osv_rating] ?? 'badge-neutral'
 
+  const ratingText = video.osv_rating ?? 'Unrated'
+
   return (
     <div className="card bg-base-300 shadow-md p-4 m-8 hover:brightness-90 max-w-[1000px]">
       <Link to={`/watch/?v=${video.yt_video_id}`}>
@@ -19,7 +21,7 @@ function VideoCard({ video }) {
         {/* <p className="mb-2">Channel name</p> */}
         <img src={`https://i.ytimg.com/vi/${video.yt_video_id}/0.jpg`} width="800px" height="160px" className="rounded-xl"></img>
         <div className={`badge ${ratingBadge} mt-2 text-md text-white`}>
-          {video.osv_rating}
+          {ratingText}
         </div>
       </Link>
     </div>

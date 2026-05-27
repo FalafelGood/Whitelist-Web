@@ -1,5 +1,6 @@
 import VideoPlayer from '../components/VideoPlayer'
 import DropBox from '../components/DropBox';
+import Loading from './Loading'
 import VideoInfo from '../components/VideoInfo';
 import {Link} from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
@@ -26,14 +27,15 @@ function VideoPage() {
   })
 
   if (isPending) {
-    return <h1>Loading...</h1>
+    return (
+      <Loading/>
+    )
   }
 
   if (isError) {
     return <span>Error: {error.message}</span>
   }
 
-  console.log(data)
   return (
     <div className="hero">
       <div className="hero-content flex-col">

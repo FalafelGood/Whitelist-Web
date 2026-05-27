@@ -35,8 +35,8 @@ export default async function handler(request) {
         const sql = neon(process.env.VITE_NEON_DATABASE_URL);
         const [packagedName, videos, packagedNumVideos] = await sql.transaction([
             sql`SELECT name FROM channels WHERE yt_channel_id = ${channel}`,
-            sql`SELECT * FROM videos WHERE yt_channel_id = ${channel} AND osv_rating != 'O' ORDER BY published_time DESC LIMIT ${limit} OFFSET ${offset}`,
-            sql`SELECT COUNT(*)::int AS total FROM videos WHERE yt_channel_id = ${channel} AND osv_rating != 'O'`
+            sql`SELECT * FROM videos WHERE yt_channel_id = ${channel} AND video_status = 'approved' ORDER BY published_time DESC LIMIT ${limit} OFFSET ${offset}`,
+            sql`SELECT COUNT(*)::int AS total FROM videos WHERE yt_channel_id = ${channel} AND video_status = 'approved'`
         ])
         // packagedName 
         const name = packagedName[0].name;

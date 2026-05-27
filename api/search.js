@@ -112,23 +112,41 @@ export default async function handler(request) {
 
     const url = new URL(request.url);
     const searchQuery = delimitBySpace(url.searchParams.get('search_query'));
-    // Debug:
-    console.log(`searchQuery: ${searchQuery}`);
 
     try {
         const vec = await embedQuery(searchQuery);
         const sql = neon(process.env.VITE_NEON_DATABASE_URL);
-        const rows = await sql`
+
+        const [videoRows, channelRows] = await sql.transaction([
+          sql`
             SELECT * FROM search_video_titles(
             ${searchQuery},
             ${toPgvectorTextLiteral(vec)}::vector(1024)
             )
-        `;
-        
+          `,
+          sql`
+            SELECT 
+              to_json(channel) AS channel,
+              lexical_score
+            FROM search_channels(${searchQuery}, 1)
+            `
+        ])
+
+        const top = channelRows?.[0];
+        const channelMatch = 
+          top && Number(top.lexical_score) > 0.50 ? top.channel : null;
+
         return new Response(
-            JSON.stringify({ rows }),
-            { status: 200, headers }
-        );
+          JSON.stringify({
+            rows: videoRows,
+            channel: channelMatch
+          })
+        )
+        
+        // return new Response(
+        //     JSON.stringify({ rows }),
+        //     { status: 200, headers }
+        // );
 
     } catch (error) {
         console.error('Database error:', error);
