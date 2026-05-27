@@ -1,13 +1,15 @@
 import DropBox from "../components/DropBox"
+import StatsCounter from "../components/StatsCounter"
 
 function About() {
   return(
     <>
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[340px]">
-        <h1 className="text-6xl mb-4">The YouTube you deserve.</h1>
+        <h1 className="text-6xl mb-4">YouTube for the Church.</h1>
+        <StatsCounter />
         <p className='mr-4 ml-4 mb-4 text-xl font-light'>
-          Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. Our goal is to find and platform the most edifying channels on the site using a responsible combination of machine learning and human moderation.
+          Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels out there using a responsible combination of human moderation and artificial intelligence.
         </p>
 
         {/* <a href="https://forms.gle/BubgqhSZEaHA3aeW9"

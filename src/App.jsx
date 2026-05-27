@@ -10,6 +10,7 @@ import Contact from './pages/Contact.jsx'
 import VideoPage from './pages/VideoPage.jsx'
 import ChannelPage from './pages/ChannelPage.jsx'
 import SearchPage from './pages/SearchPage.jsx'
+import Recommend from './pages/Recommend.jsx'
 // import './App.css'
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ function App() {
             <Route path='/watch/*' element={<VideoPage />}/>
             <Route path='/channel/*' element={<ChannelPage />}/>
             <Route path='/search/*' element={<SearchPage />}/>
+            <Route path='/recommend' element={<Recommend />}/>
           </Routes>
         </div>
       </Router>
