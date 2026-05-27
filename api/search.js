@@ -140,7 +140,8 @@ export default async function handler(request) {
           JSON.stringify({
             rows: videoRows,
             channel: channelMatch
-          })
+          }),
+          { status: 200, headers }
         )
         
         // return new Response(
