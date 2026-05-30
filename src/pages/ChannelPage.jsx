@@ -70,7 +70,7 @@ function ChannelPage() {
           Home
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 place-items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-6 gap-y-8 place-items-center px-4 pb-4 mt-8">
         {videos.map((video) => (
           <VideoCard key={video.yt_video_id} video={video} />
         ))}

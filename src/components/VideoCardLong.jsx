@@ -19,7 +19,7 @@ function VideoCardLong({ searchedVideo }) {
   return (
     <Link
       to={`/watch/?v=${searchedVideo.yt_video_id}`}
-      className="card card-side bg-base-300 shadow-md w-full max-w-4xl mx-auto my-3 hover:brightness-90 transition-[filter]"
+      className="card card-side border border-width-1 border-neutral-300 shadow-md w-full max-w-4xl mx-auto my-3 hover:brightness-80 hover:bg-base-200 transition-[filter]"
     >
       <figure className="shrink-0 w-40 sm:w-52 md:w-64">
         <img
