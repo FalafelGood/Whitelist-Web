@@ -29,7 +29,7 @@ export default async function handler(request) {
     }
 
     const sql = neon(process.env.VITE_NEON_DATABASE_URL)
-    await sql`INSERT INTO recomendations (name, channel) VALUES (${name}, ${channel})`
+    await sql`INSERT INTO recommendations (name, channel) VALUES (${name}, ${channel})`
 
     return new Response(
       JSON.stringify({ success: true }),

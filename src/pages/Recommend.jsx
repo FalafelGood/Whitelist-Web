@@ -1,13 +1,31 @@
+// J.M.J.
 import { useState } from 'react'
 
 function Recommend() {
+  const MAX_LEN = 64
   const [name, setName] = useState('')
   const [channel, setChannel] = useState('')
   const [status, setStatus] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
 
+  /*
+    Hudson's notes:
+
+    Don't be alarmed by the fact that these "constant" terms are derived from state.
+    They are only constant during the run of the function.
+    When state changes, the component is refreshed and these values change accordingly.
+  */
+  const nameTooLong = name.length > MAX_LEN
+  const channelTooLong = channel.length > MAX_LEN
+  const isTooLong = nameTooLong || channelTooLong
+
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault() // Always necessary to prevent page refresh
+    if (isTooLong) {
+      setStatus('error')
+      setErrorMessage(`Please shorten your response to ${MAX_LEN} characters or fewer, then resubmit.`)
+      return
+    }
     setStatus('submitting')
     setErrorMessage('')
 
@@ -64,10 +82,16 @@ function Recommend() {
               />
             </label>
 
+            {isTooLong && (
+              <p className="text-error text-center">
+                Please keep both fields at {MAX_LEN} characters or fewer.
+              </p>
+            )}
+
             <button
               type="submit"
               className="btn btn-neutral mt-2"
-              disabled={status === 'submitting'}
+              disabled={status === 'submitting' || isTooLong}
             >
               {status === 'submitting' ? 'Submitting…' : 'Submit'}
             </button>

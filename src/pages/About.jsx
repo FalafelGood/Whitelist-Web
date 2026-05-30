@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import DropBox from "../components/DropBox"
+import ContactCard from '../components/ContactCard'
 import StatsCounter from "../components/StatsCounter"
 
 function About() {
@@ -6,7 +8,7 @@ function About() {
     <>
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[340px]">
-        <h1 className="text-6xl mb-4">YouTube for the Church.</h1>
+        <h1 className="text-6xl mb-4">YouTube for the Church</h1>
         <StatsCounter />
         <p className='mr-4 ml-4 mb-4 text-xl font-light'>
           Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels out there using a responsible combination of human moderation and artificial intelligence.
@@ -18,9 +20,16 @@ function About() {
         </div>
       </div>
 
+      <div className="flex justify-center mb-8">
+        <Link to="/recommend" className="btn btn-primary btn-lg">
+          Recommend a Channel
+        </Link>
+      </div>
+
       <div className="divider mb-12">
         <h1 className="text-3xl">Q&A</h1>
       </div>
+
 
       <div className="flex flex-col justify-center items-center gap-4 mb-8">
 
@@ -29,44 +38,28 @@ function About() {
           // Pass jsx into the body instead of a string
           body={
             <>
-              In broad strokes, our team will identify promising YouTube channels and scrutinize their content. When we find a creator who consistently makes high quality videos in accordance with Catholic moral teachings, we will add them to the whitelist and their videos will become available to watch.
+              In broad strokes, I identify promising YouTube channels and scrutinize their content. If a creator produces high-quality and morally decent videos, their channel will be added to the Whitelist and their content will become available to watch.
               <br /><br />
-              Moreover, each video on the whitelist will be assigned a rating that indicates both its merits and its hazards. This way, parents (or sensitive viewers) will be able to filter out any content they deem unsuitable.
+              This process is expedited through the use of artifical intelligence; Video transcripts are passed into a Large Language Model that summarises the video, evaluates its moral content, and assigns it a rating.
             </>
           } 
         />
 
         <DropBox 
-          title="Who is Whitelist for?"
+          title="What's your rating system?"
           body={
             <>
-              Everyone! We're building Whitelist to be enjoyed by children, parents, schools, and whoever else wants to watch good, clean videos.
-            </>
-          } 
-        />
+              Whitelist classifies videos using the OSV rating system, which was developed by the USCCB for reviewing movies. The ratings are as follows:
 
-        <DropBox 
-          title="Is Whitelist an educational platform?"
-          body={
-            <>
-              No, but we like the idea of developing a school-friendly version! YouTube is a fantastic educational resource, but it can be dangerous in the classroom. With a modified version of Whitelist, we could improve the experience by limiting browsing activity to educational videos only.
-            </>
-          } 
-        />
+              <ul className="list-disc ml-6 mb-2 mt-2">
+                <li>A-I: General patronage</li>
+                <li>A-II: Adults & Adolescents</li>
+                <li>A-III: Adults</li>
+                <li>L: Limited adult audience</li>
+                <li>O: Morally offensive</li>
+              </ul>
 
-        <DropBox 
-          title="I've heard of content-filtering software like Canopy and Covenant Eyes. Is Whitelist anything like that?"
-          body={
-            <>
-              Yes and no. We have the same objective of creating a safer internet, but we differ in our methodology. Services like Canopy or Covenant Eyes block sexually explicit content using a combination of database queries and real-time filtering. Whitelist improves on these kind of services in three main ways:
-              <br />
-              <br />
-
-              <ol type="1" className="list-decimal ml-6">
-                <li>We don't just block or warn users about sexually explicit content. We disallow everything evil.</li>
-                <li>Unlike Canopy or Covenant eyes, Whitelist is explicitly Catholic.</li>
-                <li>Our whitelist based approach, although more restrictive, is considerably safer since all content is approved in advance.</li>
-              </ol>
+              Videos that earn a classification of "O" are never platformed on the Whitelist. A channel that earns too many "O" ratings is subject to review and removal.
             </>
           } 
         />
@@ -75,36 +68,55 @@ function About() {
           title="How are you related to YouTube?"
           body={
             <>
-              Whitelist is unaffiliated with YouTube, though this demo was made possible with the YouTube API; This is a service that allows us to fetch YouTube videos and play them on our website.
+              Whitelist is unaffiliated with YouTube, though the hope is to someday partner with them! I don't intend to compete with them (that would be foolish), but to improve it through more diligent moderation.
             </>
           } 
         />
 
-        <DropBox 
+        {/* <DropBox 
           title="Is there any danger of YouTube shutting you down?"
           body={
             <>
-              For a demo like this, no. 
-              <br />
-              <br />
-              At scale however, this becomes a valid concern. Using the YouTube API for commercial purposes means paying YouTube a subscription fee and abiding by their terms of service. Being dependent on a powerful third-party is obviously a risk we'd like to mitigate.
+              Naturally
+            </>
+          } 
+        /> */}
+
+        <DropBox 
+          title="How does Whitelist generate revenue?"
+          body={
+            <>
+              Right now it doesn't. This is a passion project that might never go anywhere.
             </>
           } 
         />
 
         <DropBox 
-          title="How will you decide what goes on the whitelist?"
+          title="Do you sell user data?"
           body={
             <>
-              Candidate videos will be graded on their merits and hazards according to an open standard we're developing called the Catholic Rating System. If a video has sufficient merit and a tolerable treatment of evil, the video will be added to the Whitelist.
-              <br />
-              <br />
-              Naturally, what is “tolerable” will depend on the viewer's maturity. Parents and sensitive individuals will be able to filter out content based on the ratings they are comfortable with.
+              Never.
+            </>
+          } 
+        />
+
+        <DropBox 
+          title="Is Whitelist an educational platform?"
+          body={
+            <>
+              Not at this stage, no. That would be a seperate (though related) product.
             </>
           } 
         />
       </div>
 
+      <div className="divider mt-12 mb-12">
+        <h1 className="text-3xl">Contact</h1>
+      </div>
+
+      <div className="flex flex-col justify-center items-center mb-16">
+        <ContactCard name="Dr. Hudson Leone" photo="../avatars/hudson.jpg" title="Webmaster" blurb={"Finally found a way to watch YouTube at work"} email="leoneht0@gmail.com" linkedin="https://www.linkedin.com/in/hudson-leone-62924b123" github="https://github.com/FalafelGood"/>
+      </div>
     </>
   )
 }

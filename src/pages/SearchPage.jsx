@@ -32,9 +32,12 @@ function SearchPage() {
   return (
     <>
       {/* <h1 className="card-title text-4xl ml-8 mt-8">Videos from {name}</h1> */}
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center mb-8">
         <Link to="/" className="btn btn-primary w-48 ml-8 mr-8 mt-6">
-          Home
+          Back to Channels
+        </Link>
+        <Link to="/Recommend" className="btn btn-neutral w-48 ml-8 mr-8 mt-6 transition hover:bg-neutral-700">
+          Recommend a Channel
         </Link>
       </div>
       {/* 
