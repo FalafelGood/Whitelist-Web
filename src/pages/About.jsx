@@ -40,7 +40,7 @@ function About() {
             <>
               In broad strokes, I identify promising YouTube channels and scrutinize their content. If a creator produces high-quality and morally decent videos, their channel will be added to the Whitelist and their content will become available to watch.
               <br /><br />
-              This process is expedited through the use of artifical intelligence; Video transcripts are passed into a Large Language Model that summarises the video, evaluates its moral content, and assigns it a rating.
+              This process is expedited through the use of artifical intelligence; Video transcripts are passed into a Large Language Model that summarizes the video, evaluates its moral content, and assigns it a rating.
             </>
           } 
         />
@@ -68,7 +68,7 @@ function About() {
           title="How are you related to YouTube?"
           body={
             <>
-              Whitelist is unaffiliated with YouTube, though the hope is to someday partner with them! I don't intend to compete with them (that would be foolish), but to improve it through more diligent moderation.
+              Whitelist is unaffiliated with YouTube, though the hope is to someday partner with them!
             </>
           } 
         />
