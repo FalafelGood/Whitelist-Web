@@ -117,7 +117,7 @@ export default async function handler(request) {
         const vec = await embedQuery(searchQuery);
         const sql = neon(process.env.VITE_NEON_DATABASE_URL);
 
-        const [videoRows, channelRows] = await sql.transaction([
+        const [searchResults, channelRows] = await sql.transaction([
           sql`
             SELECT * FROM search_video_titles(
             ${searchQuery},
@@ -132,23 +132,20 @@ export default async function handler(request) {
             `
         ])
 
+        // If channelRows exists, it should only have 1 row.
+        // Extract the channel here
         const top = channelRows?.[0];
         const channelMatch = 
           top && Number(top.lexical_score) > 0.50 ? top.channel : null;
 
         return new Response(
           JSON.stringify({
-            rows: videoRows,
+            searchResults: searchResults,
             channel: channelMatch
           }),
           { status: 200, headers }
         )
         
-        // return new Response(
-        //     JSON.stringify({ rows }),
-        //     { status: 200, headers }
-        // );
-
     } catch (error) {
         console.error('Database error:', error);
         return new Response(

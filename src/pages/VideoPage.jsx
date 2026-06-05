@@ -32,7 +32,7 @@ function VideoPage() {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>
+    return <span>Error: {Error.message}</span>
   }
 
   return (

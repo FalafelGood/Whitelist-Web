@@ -25,13 +25,12 @@ function SearchPage() {
   if (isPending) return <Loading />;
   if (isError) return <h1>Sometime went wrong!</h1>
 
-  // Note -- the "searhcedVideos" data returned from search also contains metadata about the channels, hence the special distinction in the name.
-  const searchedVideos = data?.rows ?? [];
+  // Note -- searchResult entries contain video data WITH some channel data
+  const searchResults = data?.searchResults ?? [];
   const channel = data?.channel ?? null;
 
   return (
     <>
-      {/* <h1 className="card-title text-4xl ml-8 mt-8">Videos from {name}</h1> */}
       <div className="flex items-center justify-center mb-8">
         <Link to="/" className="btn btn-primary w-48 ml-8 mr-8 mt-6">
           Back to Channels
@@ -51,8 +50,8 @@ function SearchPage() {
             className="max-w-4xl mx-auto my-3"
           />
         )}
-        {searchedVideos.map((video) => (
-          <VideoCardLong key={video.yt_video_id} searchedVideo={video} />
+        {searchResults.map((result) => (
+          <VideoCardLong key={result.yt_video_id} searchedVideo={result} />
         ))}
       </div>
     </>
