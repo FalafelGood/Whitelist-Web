@@ -1,5 +1,4 @@
 import VideoPlayer from '../components/VideoPlayer'
-import DropBox from '../components/DropBox';
 import Loading from './Loading'
 import VideoInfo from '../components/VideoInfo';
 import {Link} from 'react-router-dom'
@@ -38,18 +37,14 @@ function VideoPage() {
 
   return (
     <div className="hero">
-      <div className="hero-content flex-col">
-        {/* <h1 className="text-xl">Video Title</h1> */}
+      <div className="hero-content flex-col w-full max-w-[2000px]">
         <VideoPlayer videoId={`${videoId}`}/>
-        {/* <DropBox title="Summary" body={`${data.video.summary_text}`}></DropBox>
-        <DropBox title="Review" body={`${data.video.review_text}`}></DropBox> */}
-        <VideoInfo 
-          summary={`${data.video.summary_text}`}
-          review={`${data.video.review_text}`}
+        <VideoInfo
+          videoData={data.videoData}
+          channelData={data.channelData}
         >
         </VideoInfo>
         <div className="flex gap-4">
-          <Link to={`/channel?cid=${data.video.yt_channel_id}`} className="btn btn-primary">Back</Link>
           <Link to="/" className="btn btn-primary">Home</Link>
         </div>
       </div>

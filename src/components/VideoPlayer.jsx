@@ -1,16 +1,14 @@
-function VideoPlayer({ videoId, width=640, height=390}) {
-
+function VideoPlayer({ videoId }) {
   return (
-    <iframe
-      // Use CSS styling to size iframe... This is admittedly a bit janky, but I couldn't get tailwind to do what I wanted.
-      style={{width: "80vw", height: "50vh"}}
-      id="player" 
-      type="text/html" 
-      // width={`${width}`} 
-      // height={`${height}`}
-      src={`https://www.youtube.com/embed/${videoId}`}
-      className="rounded-3xl shadow-xl mt-4 ml-4 mr-4 mb-2"
-      ></iframe>
+    <div className="w-full aspect-video">
+      <iframe
+        id="player"
+        type="text/html"
+        src={`https://www.youtube.com/embed/${videoId}`}
+        className="w-full h-full rounded-3xl shadow-xl"
+        title="YouTube video player"
+      />
+    </div>
   );
 }
 

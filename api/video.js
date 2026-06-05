@@ -1,3 +1,4 @@
+// J.M.J.
 import { neon } from '@neondatabase/serverless'
 
 export const config = {
@@ -30,13 +31,43 @@ export default async function handler(request) {
 
     try {
         const sql = neon(process.env.VITE_NEON_DATABASE_URL);
-        const [packagedVideo] = await sql.transaction([
-            sql`SELECT * FROM videos WHERE yt_video_id = ${videoId}`,
+        const [packagedData] = await sql.transaction([
+            sql`
+            SELECT
+                v.name,
+                v.yt_video_id,
+                v.published_time,
+                v.osv_rating,
+                v.summary_text,
+                v.review_text,
+                c.name AS channel_name,
+                c.yt_channel_id,
+                c.pfp_url
+            FROM videos v
+            JOIN channels c ON c.yt_channel_id = v.yt_channel_id
+            WHERE v.yt_video_id = ${videoId}
+            `
         ])
-        // packagedName 
-        const video = packagedVideo[0];
+
+        const data = packagedData[0];
+
+        const videoData = {
+            name: data.name,
+            yt_video_id: data.yt_video_id,
+            published_time: data.published_time,
+            osv_rating: data.osv_rating,
+            review_text: data.review_text,
+            summary_text: data.summary_text
+        }
+
+        const channelData = {
+            name: data.channel_name,
+            yt_channel_id: data.yt_channel_id,
+            pfp_url: data.pfp_url,
+        }
+
         return new Response(
-            JSON.stringify({ video }),
+            JSON.stringify({ videoData, channelData }),
             { status: 200, headers}
         );
     } catch (error) {

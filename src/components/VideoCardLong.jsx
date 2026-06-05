@@ -1,18 +1,9 @@
 import { Link } from 'react-router-dom'
-
-const RATING_BADGE_CLASS = {
-  'A-I': 'bg-green-600',
-  'A-II': 'bg-blue-600',
-  'A-III': 'bg-orange-500',
-  L: 'bg-red-600',
-  O: 'bg-black',
-}
+import RatingBadge from './RatingBadge';
 
 // Note, searchedVideo contains additional metadata from the channels table
 // See api/search.js
 function VideoCardLong({ searchedVideo }) {
-  const ratingBadge =
-    RATING_BADGE_CLASS[searchedVideo.osv_rating] ?? 'badge-neutral'
 
   const thumbnail = `https://i.ytimg.com/vi/${searchedVideo.yt_video_id}/0.jpg`;
 
@@ -42,9 +33,7 @@ function VideoCardLong({ searchedVideo }) {
             />
             <h3 className="truncate">{searchedVideo.channel_name}</h3>
           </div>
-          <span className={`badge ${ratingBadge} text-md text-white shrink-0`}>
-            {searchedVideo.osv_rating}
-          </span>
+          <RatingBadge osvRating={searchedVideo.osv_rating}/>
         </div>
       </div>
     </Link>

@@ -11,7 +11,7 @@ function About() {
         <h1 className="text-6xl mb-4">YouTube for the Church</h1>
         <StatsCounter />
         <p className='mr-4 ml-4 mb-4 text-xl font-light'>
-          Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels out there using a responsible combination of human moderation and artificial intelligence.
+          Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels on the site using a responsible combination of human moderation and artificial intelligence.
         </p>
 
         {/* <a href="https://forms.gle/BubgqhSZEaHA3aeW9"
