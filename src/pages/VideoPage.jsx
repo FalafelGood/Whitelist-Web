@@ -1,14 +1,16 @@
 import VideoPlayer from '../components/VideoPlayer'
 import Loading from './Loading'
 import VideoInfo from '../components/VideoInfo';
-import {Link} from 'react-router-dom'
+import Feed from '../components/Feed';
+import { Link, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react';
 
 function VideoPage() {
 
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString)
-  const videoId = urlParams.get('v');
+  const [seed, setSeed] = useState(crypto.randomUUID())
+  const [searchParams] = useSearchParams();
+  const videoId = searchParams.get('v');
 
   async function loadVideo() {
     const res = await fetch(
@@ -20,8 +22,8 @@ function VideoPage() {
     return res.json();
   }
 
-  const { isPending, isError, data, Error } = useQuery({ 
-    queryKey: [videoId], 
+  const { isPending, isError, data, error } = useQuery({ 
+    queryKey: ['video', videoId], 
     queryFn: loadVideo,
   })
 
@@ -32,18 +34,21 @@ function VideoPage() {
   }
 
   if (isError) {
-    return <span>Error: {Error.message}</span>
+    return <span>Error: {error.message}</span>
   }
 
   return (
     <div className="hero">
-      <div className="hero-content flex-col w-full max-w-[2000px]">
+      <div className="hero-content flex-col w-full max-w-[1750px]">
         <VideoPlayer videoId={`${videoId}`}/>
         <VideoInfo
           videoData={data.videoData}
           channelData={data.channelData}
         >
         </VideoInfo>
+        <Feed 
+          seed={seed}
+        />
         <div className="flex gap-4">
           <Link to="/" className="btn btn-primary">Home</Link>
         </div>

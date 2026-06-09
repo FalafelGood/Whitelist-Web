@@ -65,6 +65,15 @@ function About() {
         />
 
         <DropBox 
+          title="Is Whitelist suitable for children?"
+          body={
+            <>
+              No. Children who want to use Whitelist should do so under parental supervision.
+            </>
+          } 
+        />
+
+        <DropBox 
           title="How are you related to YouTube?"
           body={
             <>

@@ -1,6 +1,6 @@
 // J.M.J.
 // API for random whitelist videos:
-const DEFAULT_NUM_VIDEOS = 5
+const DEFAULT_NUM_VIDEOS = 6
 
 import { neon } from '@neondatabase/serverless'
 
@@ -37,7 +37,7 @@ export default async function handler(request) {
         const randomVideos = await sql`
         SELECT * FROM videos
             WHERE video_status = 'approved' 
-            ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${numVideos};
+            ORDER BY md5(yt_video_id::text || ${seed}) LIMIT ${numVideos};
         `
         return new Response(
             JSON.stringify({ randomVideos }),
