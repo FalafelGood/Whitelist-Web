@@ -18,8 +18,8 @@ const RATING_BADGE_TEXT = {
 
 function RatingBadge({ osvRating }) {
 
-  const badgeColor = RATING_BADGE_COLORS.osvRating ?? 'badge-neutral';
-  const badgeText = RATING_BADGE_TEXT.osvRating ?? 'Unrated'
+  const badgeColor = RATING_BADGE_COLORS[osvRating] ?? 'badge-neutral';
+  const badgeText = RATING_BADGE_TEXT[osvRating] ?? 'Unrated'
 
   return(
     <span className={`badge ${badgeColor} text-md text-white shrink-0`}>

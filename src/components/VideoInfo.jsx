@@ -41,7 +41,7 @@ function VideoInfo({ videoData, channelData }) {
             <div className="card-body">
               <h2 className="card-title text-lg">Summary</h2>
               <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                {videoData.summary?.trim() ? summary : 'No summary available.'}
+                {videoData.summary_text ? videoData.summary_text : 'No summary available.'}
               </p>
             </div>
           </div>
@@ -49,7 +49,7 @@ function VideoInfo({ videoData, channelData }) {
             <div className="card-body">
               <h2 className="card-title text-lg">Review</h2>
               <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                {videoData.review?.trim() ? review : 'No description available.'}
+                {videoData.review_text ? videoData.review_text : 'No description available.'}
               </p>
             </div>
           </div>
