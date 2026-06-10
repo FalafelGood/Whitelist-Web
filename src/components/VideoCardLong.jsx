@@ -33,7 +33,10 @@ function VideoCardLong({ searchedVideo }) {
             />
             <h3 className="truncate">{searchedVideo.channel_name}</h3>
           </div>
-          <RatingBadge osvRating={searchedVideo.osv_rating}/>
+          <RatingBadge 
+            osvRating={searchedVideo.osv_rating}
+            shortForm={true}
+          />
         </div>
       </div>
     </Link>

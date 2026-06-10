@@ -38,7 +38,7 @@ function About() {
           // Pass jsx into the body instead of a string
           body={
             <>
-              In broad strokes, I identify promising YouTube channels and scrutinize their content. If a creator produces high-quality and morally decent videos, their channel will be added to the Whitelist and their content will become available to watch.
+              In broad strokes, I identify promising YouTube channels and evaluate their content. If a creator produces high-quality and morally decent videos, their channel will be added to the Whitelist and their content will become available to watch.
               <br /><br />
               This process is expedited through the use of artifical intelligence; Video transcripts are passed into a Large Language Model that summarizes the video, evaluates its moral content, and assigns it a rating.
             </>
@@ -65,10 +65,10 @@ function About() {
         />
 
         <DropBox 
-          title="Is Whitelist suitable for children?"
+          title="Is Whitelist safe for children?"
           body={
             <>
-              No. Children who want to use Whitelist should do so under parental supervision.
+              No. While some effort is taken to screen channels, the system is far from airtight. Right now, this website is managed by one person who spends enough time on YouTube as it is. Children who want to use Whitelist should do so with parental supervision.
             </>
           } 
         />
@@ -77,7 +77,7 @@ function About() {
           title="How are you related to YouTube?"
           body={
             <>
-              Whitelist is unaffiliated with YouTube, though the hope is to someday partner with them!
+              Whitelist is unaffiliated with YouTube, though the hope is to someday partner with them.
             </>
           } 
         />
@@ -104,16 +104,7 @@ function About() {
           title="Do you sell user data?"
           body={
             <>
-              Never.
-            </>
-          } 
-        />
-
-        <DropBox 
-          title="Is Whitelist an educational platform?"
-          body={
-            <>
-              Not at this stage, no. That would be a seperate (though related) product.
+              No.
             </>
           } 
         />

@@ -32,6 +32,7 @@ function VideoInfo({ videoData, channelData }) {
           
         <RatingBadge
         osvRating={videoData.osv_rating}
+        shortForm={false}
         />
       </div>
 
