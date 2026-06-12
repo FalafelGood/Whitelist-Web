@@ -6,7 +6,6 @@ import { Link } from "react-router-dom"
 function VideoInfo({ videoData, channelData }) {
   return (
     <>
-
     <div className="card bg-base-300 shadow-md w-full">
 
       <div className="card-body min-w-0 justify-center py-4">
@@ -55,6 +54,14 @@ function VideoInfo({ videoData, channelData }) {
             </div>
           </div>
         </div>
+
+        {/* AI badge */}
+        <span className="badge badge-lg badge-ghost bg-base-200 border border-base-100 gap-1.5 h-auto px-4 py-2.5 mt-6 shrink-0 font-normal">
+          <span className="font-bold">Reviewed by</span>
+          <span className="text-base-content/50">:</span>
+          <span>{videoData.reviewed_by ?? "None"}</span>
+        </span>
+
       </div>
     </div>
     </>

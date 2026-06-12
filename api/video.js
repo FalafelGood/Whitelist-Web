@@ -40,6 +40,7 @@ export default async function handler(request) {
                 v.osv_rating,
                 v.summary_text,
                 v.review_text,
+                v.reviewed_by,
                 c.name AS channel_name,
                 c.yt_channel_id,
                 c.pfp_url
@@ -57,7 +58,8 @@ export default async function handler(request) {
             published_time: data.published_time,
             osv_rating: data.osv_rating,
             review_text: data.review_text,
-            summary_text: data.summary_text
+            summary_text: data.summary_text,
+            reviewed_by: data.reviewed_by
         }
 
         const channelData = {

@@ -47,7 +47,7 @@ function Feed({ seed = null }) {
   return (
     <div className="w-full">
       <label className="flex items-center gap-3 px-4 py-2 cursor-pointer w-fit">
-        <span className="text-sm font-bold">Show Random Videos</span>
+        <span className="text-md font-bold">Show Random Videos</span>
         <input
           type="checkbox"
           className="toggle toggle-primary"
