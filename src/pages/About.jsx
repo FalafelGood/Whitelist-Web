@@ -10,9 +10,10 @@ function About() {
         <div className="hero-content text-center flex-col min-h-[340px]">
         <h1 className="text-6xl mb-4">YouTube for the Church</h1>
         <StatsCounter />
-        <p className='mr-4 ml-4 mb-4 text-xl font-light'>
+        <p className='mr-4 ml-4 text-xl font-light'>
           Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels on the site using a responsible combination of human moderation and artificial intelligence.
         </p>
+        <h1>J.M.J.</h1>
 
         {/* <a href="https://forms.gle/BubgqhSZEaHA3aeW9"
         target="_blank"
@@ -77,7 +78,7 @@ function About() {
           title="How are you related to YouTube?"
           body={
             <>
-              Whitelist is unaffiliated with YouTube, though the hope is to someday partner with them.
+              Whitelist is unaffiliated with YouTube.
             </>
           } 
         />
