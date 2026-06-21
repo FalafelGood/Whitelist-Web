@@ -33,7 +33,7 @@ export default async function handler(request) {
 
 
     try {
-        const sql = neon(process.env.VITE_NEON_DATABASE_URL);
+        const sql = neon(process.env.NEON_DATABASE_URL);
         const randomVideos = await sql`
         SELECT * FROM videos
             WHERE video_status = 'approved' 

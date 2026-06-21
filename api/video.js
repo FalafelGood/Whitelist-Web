@@ -30,7 +30,7 @@ export default async function handler(request) {
     }
 
     try {
-        const sql = neon(process.env.VITE_NEON_DATABASE_URL);
+        const sql = neon(process.env.NEON_DATABASE_URL);
         const [packagedData] = await sql.transaction([
             sql`
             SELECT

@@ -27,7 +27,7 @@ async function voyageEmbed(
   inputs,
   inputType,
 ) {
-  const apiKey = process.env.VITE_VOYAGE_API_KEY;
+  const apiKey = process.env.VOYAGE_API_KEY;
   const normalized = inputs.map(normalizeText);
 
   const maxAttempts = 4;
@@ -115,7 +115,7 @@ export default async function handler(request) {
 
     try {
         const vec = await embedQuery(searchQuery);
-        const sql = neon(process.env.VITE_NEON_DATABASE_URL);
+        const sql = neon(process.env.NEON_DATABASE_URL);
 
         const [searchResults, channelRows] = await sql.transaction([
           sql`

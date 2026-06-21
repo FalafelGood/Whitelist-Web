@@ -23,7 +23,7 @@ export default async function handler(request) {
   }
 
   try {
-    const sql = neon(process.env.VITE_NEON_DATABASE_URL);
+    const sql = neon(process.env.NEON_DATABASE_URL);
     const [videoCountRows, channelCountRows] = await sql.transaction([
       sql`SELECT COUNT(*)::int AS total FROM videos WHERE video_status = 'approved'`,
       sql`SELECT COUNT(*)::int AS total FROM channels WHERE human_moderation_status = 'approved'`,
