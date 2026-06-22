@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 // import {FeedProvider} from './context/FeedContext.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Analytics } from '@vercel/analytics/react'
 
 import Navbar from './components/Navbar.jsx'
 import Home from './pages/Home.jsx'
@@ -32,6 +33,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <Analytics />
     </QueryClientProvider>
   )
 }
