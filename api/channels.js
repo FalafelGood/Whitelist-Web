@@ -34,11 +34,33 @@ export default async function handler(request) {
         const sql = neon(process.env.NEON_DATABASE_URL);
         let channels = [];
 
-        if (!category || category==="all") {
-            channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+        if (!category || category === "all") {
+            channels = await sql`
+                SELECT * FROM channels
+                    WHERE human_moderation_status = 'approved'
+                ORDER BY md5(yt_channel_id::text || ${seed}) 
+                LIMIT ${limit} OFFSET ${offset};
+            `
         } else {
-            channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' AND category = ${category} ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+            channels = await sql`
+                SELECT c.*
+                FROM channels c
+                JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
+                WHERE cc.category_id = (
+                    SELECT id FROM categories WHERE name = ${category}
+                )
+                AND c.human_moderation_status = 'approved'
+                ORDER BY md5(c.yt_channel_id::text || ${seed}) 
+                LIMIT ${limit} OFFSET ${offset};
+            `
         }
+
+        // if (!category || category==="all") {
+        //     channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+        // } else {
+        //     channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' AND category = ${category} ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
+        // }
+
         return new Response(
             JSON.stringify({ seed, channels }),
             { status: 200, headers }

@@ -1,5 +1,6 @@
 // J.M.J.
-import { useState, useContext } from 'react'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Channel from '../components/Channel'
 import Loading from './Loading'
@@ -7,8 +8,8 @@ import CategoriesBar from '../components/CategoriesBar';
 
 function Home() {
 
-  // const { category, setCategory } = useContext(FeedContext)
-  const [category, setCategory] = useState('all');
+  const [searchParams] = useSearchParams()
+  const category = searchParams.get('category') ?? 'all'
   const [seed] = useState(() => crypto.randomUUID());
   const limit = 12;
 
@@ -61,7 +62,7 @@ function Home() {
 
   return (
     <div>
-      <CategoriesBar category={category} setCategory={setCategory} />
+      <CategoriesBar category={category} />
       <div className="grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 place-items-center gap-x-6 gap-y-8 px-4 pb-4 mt-8">
         {channels.map((channel, idx) => (
           <Channel key={idx} channel={channel} />
