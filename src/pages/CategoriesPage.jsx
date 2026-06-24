@@ -12,7 +12,10 @@ export const CATEGORIES = [
   "podcast",
   "comedy",
   "gaming",
-  "ecclectic"
+  "eclectic",
+  "slice_of_life",
+  "projects",
+  "cooking"
 ]
 
 export function formatCategoryText(str) {
