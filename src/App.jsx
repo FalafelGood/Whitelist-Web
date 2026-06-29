@@ -13,6 +13,7 @@ import ChannelPage from './pages/ChannelPage.jsx'
 import SearchPage from './pages/SearchPage.jsx'
 import Recommend from './pages/Recommend.jsx'
 import CategoriesPage from './pages/CategoriesPage.jsx'
+import NotFound from './pages/NotFound.jsx'
 // import './App.css'
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ function App() {
             <Route path='/search/*' element={<SearchPage />}/>
             <Route path='/recommend' element={<Recommend />}/>
             <Route path='/categories' element={<CategoriesPage />}/>
+            <Route path='*' element={<NotFound />}/>
           </Routes>
         </div>
       </Router>
