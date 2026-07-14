@@ -9,8 +9,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     vercel({
+      cleanUrls: false,
       rewrites: [
-        { source: '/(.*)', destination: '/' },
+        { source: '/(.*)', destination: '/index.html' },
       ]
     })
   ],
