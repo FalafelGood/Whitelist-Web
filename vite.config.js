@@ -10,7 +10,7 @@ export default defineConfig({
     tailwindcss(),
     vercel({
       rewrites: [
-        { source: '/(.*)', destination: '/index.html' },
+        { source: '/(.*)', destination: '/' },
       ]
     })
   ],
