@@ -5,6 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import Channel from '../components/Channel'
 import Loading from './Loading'
 import CategoriesBar from '../components/CategoriesBar';
+import AdminTools from '../components/AdminTools'
 
 function Home() {
 
@@ -63,6 +64,7 @@ function Home() {
   return (
     <div>
       <CategoriesBar category={category} />
+      <AdminTools />
       <div className="grid md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 place-items-center gap-x-6 gap-y-8 px-4 pb-4 mt-8">
         {channels.map((channel, idx) => (
           <Channel key={idx} channel={channel} />
