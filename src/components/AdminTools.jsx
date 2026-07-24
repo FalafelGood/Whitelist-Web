@@ -9,7 +9,7 @@ function AdminTools() {
         <div className="card bg-neutral-100 border border-neutral-300 w-full max-w-md shadow-md">
           <div className="card-body gap-6">
             <div className="flex items-center justify-between gap-4">
-              <h1 className="card-title text-xl text-red-500">Admin Tools</h1>
+              <h1 className="card-title text-xl text-red-500">Admin Tools (Home)</h1>
               <UserButton />
             </div>
 
@@ -44,11 +44,6 @@ function AdminTools() {
       </div>
     </Show>
   )
-  // Welcome {name}. You are currently logged in with admin privleges
-  // Add channel
-  // Browse unmoderated channels
-  // Rerate video
-  // Rerate channel
 }
 
 export default AdminTools;

@@ -1,13 +1,16 @@
 import VideoCard from '../components/VideoCard'
 import Loading from './Loading';
+import AdminChannel from '../components/AdminChannel';
 import { Link, useSearchParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { useAuth } from '@clerk/react'
 
 function ChannelPage() {
 
   const limit = 12; // Number of videos per page
   const [searchParams] = useSearchParams();
   const channelId = searchParams.get('cid');
+  const { isSignedIn } = useAuth();
 
   if (!channelId) {
     return <h1>Uh-oh! This channel isn't available!</h1>
@@ -65,6 +68,7 @@ function ChannelPage() {
   return (
     <>
       <h1 className="card-title text-4xl ml-8 mt-8">Videos from {name}</h1>
+      {isSignedIn && <AdminChannel name={name} channelId={channelId} />}
       <div className="flex items-center justify-center">
         <Link to="/" className="btn btn-primary w-48 ml-8 mr-8 mt-6">
           Home
