@@ -23,7 +23,7 @@ export default async function handler(request) {
   )
 
   if (!isAuthenticated) {
-    return new Response(JSON.stringify({ error: 'Unauthorized'}), {
+    return new Response(JSON.stringify({ ok: false, error: 'Unauthorized'}), {
       status: 401,
       headers: { 'Content-Type': 'application/json' },
     })

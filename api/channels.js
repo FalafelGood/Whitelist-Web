@@ -34,32 +34,135 @@ export default async function handler(request) {
         const sql = neon(process.env.NEON_DATABASE_URL);
         let channels = [];
 
+        /*
+            Note: Semicolons aren't required for sql tagged templates.
+            In some cases. a semicolon can actually break the Neon client. Don't know why.
+        */
         if (!category || category === "all") {
+            /*
+                Query overview:
+
+                1. Load the channels to be paginated into `loaded_channels`
+                2. Put the categories of each of the loaded channels into `cats_of_loaded_channels`
+                3. LEFT JOIN `loaded_channels` with `cats_of_loaded_channels`.
+                
+                If a channel has no categories, LEFT JOIN ensures the channel is still present in the JOINed table. COALESCE returns the empty array if `cats_of_loaded_channels` is NULL. 
+                
+                This ensures that channels with no categories are still fetched by this query. (In theory, every channel should have a category, but I wanted to make sure this edge case got handled)
+
+            */
             channels = await sql`
-                SELECT * FROM channels
-                    WHERE human_moderation_status = 'approved'
-                ORDER BY md5(yt_channel_id::text || ${seed}) 
-                LIMIT ${limit} OFFSET ${offset};
+                WITH loaded_channels AS (
+                    SELECT c.*
+                    FROM channels c
+                    WHERE c.human_moderation_status = 'approved'
+                    ORDER BY md5(c.yt_channel_id::text || ${seed})
+                    LIMIT ${limit} OFFSET ${offset}
+                ),
+                cats_of_loaded_channels AS (
+                    SELECT
+                        cc.yt_channel_id,
+                        array_agg(cat.name) AS categories
+                    FROM channel_categories cc
+                    JOIN categories cat ON cat.id = cc.category_id
+                    WHERE cc.yt_channel_id IN (
+                        SELECT yt_channel_id FROM loaded_channels
+                    )
+                    GROUP BY cc.yt_channel_id
+                )
+                SELECT
+                    lc.*,
+                    COALESCE(colc.categories, '{}') AS categories
+                FROM loaded_channels lc
+                LEFT JOIN cats_of_loaded_channels colc
+                    ON colc.yt_channel_id = lc.yt_channel_id
             `
         } else {
+            /*
+                VERSION 1 -- Bugged query
+
+                The WHERE clause only selects rows where `name = ${category}`.
+                Consequently any categories other than `${category}` are dropped.
+            */
+
+            // channels = await sql`
+            //     SELECT c.*, array_agg(cat.name) AS categories
+            //     FROM channels c
+            //     JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
+            //     JOIN categories cat on cc.category_id = cat.id
+            //     WHERE cc.category_id = (
+            //         SELECT id FROM categories WHERE name = ${category}
+            //     )
+            //     AND c.human_moderation_status = 'approved'
+            //     GROUP BY c.yt_channel_id
+            //     ORDER BY md5(c.yt_channel_id::text || ${seed}) 
+            //     LIMIT ${limit} OFFSET ${offset};
+            // `
+
+
+            /*
+                VERSION 2 -- Fixed query, but still inefficient.
+
+                The problem with this query is that categories is JOINED onto the entire table which creates a lot of uneccesary compute since *most channels will not make it onto the page*.
+
+                The third revision solves this problem by using CTEs to first grab all the channels that will appear on the page and then figure out their categories.
+            */
+
+            // channels = await sql`
+            //     SELECT c.*, array_agg(cat.name) AS categories
+            //     FROM channels c
+            //     JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
+            //     JOIN categories cat on cc.category_id = cat.id
+            //     WHERE EXISTS (
+            //         SELECT 1
+            //         FROM channel_categories cc2
+            //         JOIN categories cat2 ON cc2.category_id = cat2.id
+            //         WHERE cc2.yt_channel_id = cc.yt_channel_id
+            //             AND cat2.name = ${category}
+            //     )
+            //     AND c.human_moderation_status = 'approved'
+            //     GROUP BY c.yt_channel_id
+            //     ORDER BY md5(c.yt_channel_id::text || ${seed}) 
+            //     LIMIT ${limit} OFFSET ${offset}
+            // `
+            
+            /*
+                Query overview:
+
+                Similar to the previous one:
+
+                1. Load the channels to be paginated into `loaded_channels` (only this time, get the channels where `cat.name = ${category}`)
+                2. Put the categories of the loaded channels into `cats_of_loaded_channels`
+                3. JOIN `loaded_channels` with `cats_of_loaded_channels`.
+
+                No LEFT JOIN is needed for this query since every channel has at least one category.
+            */
             channels = await sql`
-                SELECT c.*
-                FROM channels c
-                JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
-                WHERE cc.category_id = (
-                    SELECT id FROM categories WHERE name = ${category}
+                WITH loaded_channels AS (
+                    SELECT c.* FROM channels c
+                    JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
+                    JOIN categories cat on cc.category_id = cat.id
+                    WHERE cat.name = ${category}
+                        AND c.human_moderation_status = 'approved'
+                    ORDER BY md5(c.yt_channel_id::text || ${seed}) 
+                    LIMIT ${limit} OFFSET ${offset}
+                ),
+                cats_of_loaded_channels AS (
+                    SELECT
+                        cc.yt_channel_id,
+                        array_agg(cat.name) AS categories
+                    FROM channel_categories cc
+                    JOIN categories cat ON cat.id = cc.category_id
+                    WHERE cc.yt_channel_id IN (
+                        SELECT yt_channel_id FROM loaded_channels
+                    )
+                    GROUP BY cc.yt_channel_id
                 )
-                AND c.human_moderation_status = 'approved'
-                ORDER BY md5(c.yt_channel_id::text || ${seed}) 
-                LIMIT ${limit} OFFSET ${offset};
+                SELECT lc.*, colc.categories
+                FROM loaded_channels lc
+                JOIN cats_of_loaded_channels colc ON colc.yt_channel_id = lc.yt_channel_id
             `
         }
-
-        // if (!category || category==="all") {
-        //     channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
-        // } else {
-        //     channels = await sql`SELECT * FROM channels WHERE human_moderation_status = 'approved' AND category = ${category} ORDER BY md5(yt_channel_id::text || ${seed}) LIMIT ${limit} OFFSET ${offset}`;
-        // }
 
         return new Response(
             JSON.stringify({ seed, channels }),

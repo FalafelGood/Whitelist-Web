@@ -7,7 +7,25 @@ function Channel({ channel, className = 'sm:max-w-[500px] md:max-w-[1200px]' }) 
 
   return (
     <div className={`card border border-width-1 border-neutral-300 shadow-xl w-full flex flex-col ${className}`}>
-      <h1 className="card-title text-4xl mx-2 mt-2 mb-1 line-clamp-2">{`${channel.name}`}</h1>
+      <h1 className="card-title text-4xl mx-2 mt-2 line-clamp-2">{`${channel.name}`}</h1>
+
+      {/* {channel.categories?.length == 0 && (
+        <div className="mb-4">
+        </div>
+      )} */}
+
+      {channel.categories?.length > 0 && (
+        <div className="flex flex-wrap gap-2 mx-3 my-4">
+          {channel.categories.map((cat) => (
+            <Link to={`/?category=${cat}`}>
+              <span key={cat} className="btn btn-xs btn-neutral btn-outline">              
+                #{cat}
+              </span>
+            </Link>
+          ))}
+        </div>
+      )}
+
       <img className="rounded-xl mx-2 mb-2 w-[calc(100%-1rem)] h-auto"
         src={`${channel.banner_url}`}
         referrerPolicy="no-referrer"></img>
@@ -22,15 +40,14 @@ function Channel({ channel, className = 'sm:max-w-[500px] md:max-w-[1200px]' }) 
           </p>
         </div>
       </div>
+
+      
+
       <Link to={`/channel?cid=${channel.yt_channel_id}`}
       state={channel}
-      className="btn btn-primary ml-4 mr-4 mb-6 mt-auto">
+      className="btn btn-primary mx-2 mb-6 mt-auto">
       Visit Channel
       </Link>
-      {/* <div className="grid sm:grid-cols:1 md:grid-cols-2 place-items-center">
-        <VideoCard video={channel.videos[0]}/>
-        <VideoCard video={channel.videos[1]}/>
-      </div> */}
     </div>
   );
 }
