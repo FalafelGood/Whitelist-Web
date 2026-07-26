@@ -1,23 +1,9 @@
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import Loading from './Loading'
 
-export const CATEGORIES = [
-  'religion',
-  'math',
-  'science',
-  'literature',
-  'history',
-  'computer_science',
-  'art',
-  "chill",
-  "podcast",
-  "comedy",
-  "gaming",
-  "eclectic",
-  "slice_of_life",
-  "projects",
-  "cooking"
-]
-
+// This function capitalizes first letter and replace underscores with spaces
+// e.g: "slice_of_life" => "Slice of life"
 export function formatCategoryText(str) {
   if (str.length === 0) {
     return '';
@@ -30,13 +16,33 @@ function categoryPath(category) {
 }
 
 function CategoriesPage() {
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["allCategories"],
+    queryFn: async () => {
+      const res = await fetch(`/api/channel_categories`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return res.json()
+    },
+  })
+
+  if (isPending) {
+    return (
+      <Loading fullScreen={true} />
+    )
+  }
+
+  if ( isError ) {
+    return (
+      <h1>Couldn't load categories!</h1>
+    )
+  }
+
   return (
     <div className="px-10">
-      
       <h1 className="text-2xl font-semibold text-center my-6">Choose a category</h1>
-
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-        {CATEGORIES.map((cat) => (
+        {data.categories.map((cat) => (
           <Link
             key={cat}
             to={categoryPath(cat)}

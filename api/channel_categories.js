@@ -14,17 +14,31 @@ export default async function handler(request) {
   const url = new URL(request.url)
   const channel = url.searchParams.get('channel')
 
-  if (!channel) {
-    return new Response(
-      JSON.stringify({ error: 'Missing required parameter: channel' }),
-      { status: 400, headers }
-    )
-  }
-
   try {
     const sql = neon(process.env.NEON_DATABASE_URL)
 
+    if (!channel && request.method === 'GET') {
+      // No channel specified, get all channel categoires
+      const rows = await sql`
+        SELECT name
+        FROM categories
+        ORDER BY name
+      `
+      const categories = rows.map((row) => row.name)
+      return new Response(
+        JSON.stringify({ categories }),
+        { status: 200, headers }
+      )
+    } else if (!channel) {
+      // Every other operation must have a channel. Throw an error
+      return new Response(
+        JSON.stringify({ error: 'Every method except GET requires a channel' }),
+        { status: 405, headers }
+      )
+    }
+
     if (request.method === 'GET') {
+      // Get categories for channel ${channel}
       const rows = await sql`
         SELECT cat.name
         FROM channel_categories cc

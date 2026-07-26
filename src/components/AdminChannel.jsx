@@ -8,14 +8,13 @@ function AdminChannel({ name, channelId }) {
   /* 
     useQueryClient returns the current QueryClient instance.
     QueryClient can be used to interact with a cache.
-    In this case, QueryClient will be used to update the query when I've deleted a channel
-    category.
+    In this case, QueryClient will be used to update the query when I've deleted a channel category.
   */
   const queryClient = useQueryClient()
-  const queryKey = ['channelCategories', channelId]
 
-  const { data, isPending, isError } = useQuery({
-    queryKey,
+  // Query for categories that are assigned to the channel
+  const assignedCats = useQuery({
+    queryKey: ['channelCategories', channelId],
     queryFn: async () => {
       const res = await fetch(`/api/channel_categories?channel=${channelId}`)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -23,6 +22,19 @@ function AdminChannel({ name, channelId }) {
     },
     enabled: !!channelId,
   })
+
+  // Query for all categories
+  const allCats = useQuery({
+    queryKey: ['allCategories'],
+    queryFn: async () => {
+      const res = await fetch('/api/channel_categories')
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return res.json()
+    },
+  })
+
+  const isPending = assignedCats.isPending || allCats.isPending
+  const isError = assignedCats.isError || allCats.isError
 
   const deleteCategory = useMutation({
     mutationFn: async (category) => {
@@ -44,16 +56,24 @@ function AdminChannel({ name, channelId }) {
       Source: https://tanstack.com/query/v5/docs/framework/react/guides/query-invalidation
     */
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey })
+      queryClient.invalidateQueries({ queryKey: ['channelCategories', channelId] })
     },
   })
 
-  const categories = data?.categories ?? []
+  /* 
+    Three different lists below:
+      + The categories assigned to a channel
+      + All possible categories
+      + All categories that can be assigned to the channel
+  */
+  const assigned = assignedCats.data?.categories ?? []
+  const all = allCats.data?.categories ?? []
+  const addable = all.filter((c) => !assigned.includes(c))
 
   return (
     <Show when="signed-in">
       <div className="flex justify-center px-4 mt-6">
-        <div className="card bg-neutral-100 border border-neutral-300 w-full max-w-md shadow-md">
+        <div className="card bg-neutral-100 border border-neutral-300 w-full max-w-xl shadow-md">
           <div className="card-body gap-6">
             <div className="flex items-center justify-between gap-4">
               <h1 className="card-title text-xl text-red-500">Admin Tools for "{name}"</h1>
@@ -64,12 +84,12 @@ function AdminChannel({ name, channelId }) {
               <span className="label-text mb-2 block">Channel categories</span>
               {isPending && <p className="text-sm text-neutral-500">Loading categories…</p>}
               {isError && <p className="text-sm text-error">Failed to load categories.</p>}
-              {!isPending && !isError && categories.length === 0 && (
+              {!isPending && !isError && assigned.length === 0 && (
                 <p className="text-sm text-neutral-500">No categories yet.</p>
               )}
-              {categories.length > 0 && (
+              {assigned.length > 0 && (
                 <div className="grid grid-cols-2 gap-2">
-                  {categories.map((cat) => (
+                  {assigned.map((cat) => (
                     <div
                       key={cat}
                       className="flex items-center justify-between gap-1 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm"
@@ -95,21 +115,56 @@ function AdminChannel({ name, channelId }) {
               )}
             </div>
 
-            <form className="flex flex-col gap-3 text-left">
-              <label className="form-control">
-                <span className="label-text mb-1">Add new category</span>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="text"
-                    className="input w-full flex-1 bg-white text-black"
-                    placeholder="Channel category (e.g. slice_of_life)"
-                  />
-                  <button type="submit" className="btn btn-warning sm:w-auto">
-                    Submit
-                  </button>
+            <form
+              className="flex flex-col gap-3 text-left"
+              onSubmit={(e) => {
+                e.preventDefault();
+                // Dummy behavior -- Currently just logs the selected catagories.
+                const formData = new FormData(e.currentTarget);
+                const categories = formData.getAll('categories');
+                console.log(categories);
+              }}
+            >
+              <span className="label-text mb-1">Add categories</span>
+              {isPending && (
+                <p className="text-sm text-neutral-500">Loading categories…</p>
+              )}
+              {isError && (
+                <p className="text-sm text-error">Failed to load categories.</p>
+              )}
+              {!isPending && !isError && addable.length === 0 && (
+                <p className="text-sm text-neutral-500">
+                  No more categories to assign
+                </p>
+              )}
+              {addable.length > 0 && (
+                <div className="grid grid-cols-3 gap-2">
+                  {addable.map((cat) => (
+                    <label
+                      key={cat}
+                      className="flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-pointer"
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                        name="categories"
+                        value={cat}
+                      />
+                      <span className="truncate">{formatCategoryText(cat)}</span>
+                    </label>
+                  ))}
                 </div>
-              </label>
+              )}
+              <button
+                type="submit"
+                className="btn btn-warning self-start"
+                disabled={isPending || isError || addable.length === 0}
+              >
+                Submit
+              </button>
             </form>
+
+            <div className="divider my-0 text-sm">DANGER ZONE</div>
 
             <div className="flex flex-col gap-2">
               <span className="btn btn-neutral text-red-500">
