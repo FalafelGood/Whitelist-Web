@@ -60,6 +60,33 @@ function AdminChannel({ name, channelId }) {
     },
   })
 
+  const updateCategories = useMutation({
+    mutationFn: async (categories) => {
+      const token = await getToken()
+      const res = await fetch(
+        `/api/channel_categories?channel=${channelId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({ categories }),
+        }
+      )
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return res.json()
+    },
+    /*
+      Like before, the cache is out of date. Invalidate old query.
+
+      Source: https://tanstack.com/query/v5/docs/framework/react/guides/query-invalidation
+    */
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['channelCategories', channelId] })
+    },
+  })
+
   /* 
     Three different lists below:
       + The categories assigned to a channel
@@ -80,6 +107,9 @@ function AdminChannel({ name, channelId }) {
               <UserButton />
             </div>
 
+            {/* 
+            DELETE CATEGORIES BAR
+            */}
             <div>
               <span className="label-text mb-2 block">Channel categories</span>
               {isPending && <p className="text-sm text-neutral-500">Loading categories…</p>}
@@ -115,6 +145,13 @@ function AdminChannel({ name, channelId }) {
               )}
             </div>
 
+            {deleteCategory.isError && (
+              <p className="text-sm text-error">{updateCategories.error.message}</p>
+            )}
+
+            {/* 
+            UPDATE CATEGORIES FORM 
+            */}
             <form
               className="flex flex-col gap-3 text-left"
               onSubmit={(e) => {
@@ -122,7 +159,7 @@ function AdminChannel({ name, channelId }) {
                 // Dummy behavior -- Currently just logs the selected catagories.
                 const formData = new FormData(e.currentTarget);
                 const categories = formData.getAll('categories');
-                console.log(categories);
+                updateCategories.mutate(categories);
               }}
             >
               <span className="label-text mb-1">Add categories</span>
@@ -158,11 +195,20 @@ function AdminChannel({ name, channelId }) {
               <button
                 type="submit"
                 className="btn btn-warning self-start"
-                disabled={isPending || isError || addable.length === 0}
+                disabled={
+                  isPending || 
+                  isError || 
+                  addable.length === 0 ||
+                  updateCategories.isPending
+                }
               >
                 Submit
               </button>
             </form>
+
+            {updateCategories.isError && (
+              <p className="text-sm text-error">{updateCategories.error.message}</p>
+            )}
 
             <div className="divider my-0 text-sm">DANGER ZONE</div>
 
