@@ -1,11 +1,11 @@
 // J.M.J.
 
 import RatingBadge from "./RatingBadge"
+import FlagVideoModal from "./FlagVideoModal"
 import { Link } from "react-router-dom"
 
 function VideoInfo({ videoData, channelData }) {
   return (
-    <>
     <div className="card bg-base-300 shadow-md w-full">
 
       <div className="card-body min-w-0 justify-center py-4">
@@ -28,11 +28,16 @@ function VideoInfo({ videoData, channelData }) {
             <h3 className="truncate text-lg">{channelData.name}</h3>
           </Link>
         </div>
+
+        <div className="flex flex-row items-center gap-2">
+          <RatingBadge
+          osvRating={videoData.osv_rating}
+          shortForm={false}
+          />
           
-        <RatingBadge
-        osvRating={videoData.osv_rating}
-        shortForm={false}
-        />
+          <FlagVideoModal ytVideoId={videoData.yt_video_id} />
+        </div>
+
       </div>
 
       <div className="card-body gap-0 sm:p-6 -mt-4">
@@ -64,7 +69,6 @@ function VideoInfo({ videoData, channelData }) {
 
       </div>
     </div>
-    </>
   )
 }
 

@@ -27,19 +27,29 @@ export default async function handler(request) {
   }
 
   try {
-    const body = await request.json()
-    const name = body.name?.trim() || null
-    const channel = body.channel?.trim()
+    const url = new URL(request.url);
+    const yt_video_id = url.searchParams.get("yt_video_id");
 
-    if (!channel) {
+    if (!yt_video_id) {
       return new Response(
-        JSON.stringify({ error: 'Channel is required' }),
+        JSON.stringify({ error: 'YouTube video id is required' }),
+        { status: 400, headers }
+      )
+    }
+
+    const body = await request.json()
+    const email = body.email?.trim() || null
+    const report = body.report?.trim()
+
+    if (!report) {
+      return new Response(
+        JSON.stringify({ error: 'Report is required' }),
         { status: 400, headers }
       )
     }
 
     const sql = neon(process.env.NEON_DATABASE_URL)
-    await sql`INSERT INTO recommendations (name, channel) VALUES (${name}, ${channel})`
+    await sql`INSERT INTO flagged_videos (yt_video_id, report, email) VALUES (${yt_video_id}, ${report}, ${email})`
 
     return new Response(
       JSON.stringify({ success: true }),
@@ -48,7 +58,7 @@ export default async function handler(request) {
   } catch (error) {
     console.error('Database error:', error)
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ error: 'Internal server error', message: error.message }),
       { status: 500, headers }
     )
   }
