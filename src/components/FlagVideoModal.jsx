@@ -9,6 +9,8 @@ function FlagVideoModal({ ytVideoId }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
+  const reportLen = report.length
+  const MAX_REPORT_LEN = 500
 
   function resetAndClose() {
     setReport('')
@@ -76,6 +78,7 @@ function FlagVideoModal({ ytVideoId }) {
               <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-2">
                 <label className="form-control">
                   <span className="label-text mb-1">Your report</span>
+                  <span className="ml-2 label-text-alt text-gray-500">{reportLen}/{MAX_REPORT_LEN} characters</span>
                   <textarea
                     className="textarea textarea-bordered w-full"
                     placeholder="What's wrong with this video?"
