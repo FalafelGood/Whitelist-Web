@@ -1,5 +1,4 @@
 // J.M.J.
-import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Channel from '../components/Channel'
@@ -7,11 +6,14 @@ import Loading from './Loading'
 import CategoriesBar from '../components/CategoriesBar';
 import AdminTools from '../components/AdminTools'
 
+// Stable for the life of the page load; survives Home remounts on client-side nav.
+// Need to use state if I want a "randomize" button that changes seed
+const homeSeed = crypto.randomUUID()
+
 function Home() {
 
   const [searchParams] = useSearchParams()
   const category = searchParams.get('category') ?? 'all'
-  const [seed] = useState(() => crypto.randomUUID());
   const limit = 12;
 
   async function loadChannels({ queryKey, pageParam = 1 }) {
@@ -34,7 +36,7 @@ function Home() {
     hasNextPage,
     isFetchingNextPage
   } = useInfiniteQuery({ 
-        queryKey: ['channels', category, seed], 
+        queryKey: ['channels', category, homeSeed], 
         queryFn: loadChannels,
         getNextPageParam: (lastPage, allPages) => {
           const loadedThisPage = lastPage.channels?.length ?? 0;
