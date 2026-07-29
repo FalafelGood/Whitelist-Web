@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 function Recommend() {
   const MAX_LEN = 64
-  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [channel, setChannel] = useState('')
   const [status, setStatus] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
@@ -15,9 +15,9 @@ function Recommend() {
     They are only constant during the run of the function.
     When state changes, the component is refreshed and these values change accordingly.
   */
-  const nameTooLong = name.length > MAX_LEN
+  const emailTooLong = email.length > MAX_LEN
   const channelTooLong = channel.length > MAX_LEN
-  const isTooLong = nameTooLong || channelTooLong
+  const isTooLong = emailTooLong || channelTooLong
 
   async function handleSubmit(e) {
     e.preventDefault() // Always necessary to prevent page refresh
@@ -33,7 +33,7 @@ function Recommend() {
       const res = await fetch('/api/recommendations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, channel }),
+        body: JSON.stringify({ channel, email }),
       })
 
       const data = await res.json()
@@ -42,7 +42,7 @@ function Recommend() {
         throw new Error(data.error || data.message || 'Failed to submit recommendation')
       }
 
-      setName('')
+      setEmail('')
       setChannel('')
       setStatus('success')
     } catch (err) {
@@ -61,15 +61,6 @@ function Recommend() {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 w-full max-w-md text-left"
           >
-            <label className="form-control">
-              <span className="label-text mb-1">Name (optional)</span>
-              <input
-                type="text"
-                className="input w-full bg-white text-black"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
 
             <label className="form-control">
               <span className="label-text mb-1">Channel recommendation</span>
@@ -79,6 +70,16 @@ function Recommend() {
                 value={channel}
                 onChange={(e) => setChannel(e.target.value)}
                 required
+              />
+            </label>
+
+            <label className="form-control">
+              <span className="label-text mb-1">Email (optional)</span>
+              <input
+                type="text"
+                className="input w-full bg-white text-black"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
 

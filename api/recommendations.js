@@ -28,7 +28,7 @@ export default async function handler(request) {
 
   try {
     const body = await request.json()
-    const name = body.name?.trim() || null
+    const email = body.email?.trim() || null
     const channel = body.channel?.trim()
 
     if (!channel) {
@@ -39,7 +39,7 @@ export default async function handler(request) {
     }
 
     const sql = neon(process.env.NEON_DATABASE_URL)
-    await sql`INSERT INTO recommendations (name, channel) VALUES (${name}, ${channel})`
+    await sql`INSERT INTO recommendations (email, channel) VALUES (${email}, ${channel})`
 
     return new Response(
       JSON.stringify({ success: true }),
