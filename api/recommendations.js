@@ -10,6 +10,8 @@
 
 import { neon } from '@neondatabase/serverless'
 
+const MAX_LEN = 64
+
 export const config = {
   runtime: 'edge',
 }
@@ -35,6 +37,18 @@ export default async function handler(request) {
       return new Response(
         JSON.stringify({ error: 'Channel is required' }),
         { status: 400, headers }
+      )
+    }
+
+    const emailTooLong = email ? email.length > MAX_LEN : false;
+    const channelTooLong = channel.length > MAX_LEN;
+    
+    if (emailTooLong || channelTooLong) {
+      return new Response(
+        JSON.stringify(
+          { error: 'Email and recommendation must not exceed 64 characters' },
+          { status: 403, headers }
+        )
       )
     }
 

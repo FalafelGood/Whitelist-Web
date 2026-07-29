@@ -10,6 +10,9 @@
 
 import { neon } from '@neondatabase/serverless'
 
+const MAX_EMAIL_LEN = 64
+const MAX_REPORT_LEN = 500
+
 export const config = {
   runtime: 'edge',
 }
@@ -45,6 +48,18 @@ export default async function handler(request) {
       return new Response(
         JSON.stringify({ error: 'Report is required' }),
         { status: 400, headers }
+      )
+    }
+
+    const emailTooLong = email ? email.length > MAX_EMAIL_LEN : false
+    const reportTooLong = report.length > MAX_REPORT_LEN
+
+    if (emailTooLong || reportTooLong) {
+      return new Response(
+        JSON.stringify({
+          error: `Email must not exceed ${MAX_EMAIL_LEN} characters and report must not exceed ${MAX_REPORT_LEN} characters`,
+        }),
+        { status: 403, headers }
       )
     }
 

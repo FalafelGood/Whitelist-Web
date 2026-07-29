@@ -1,8 +1,8 @@
 // J.M.J.
 import { useState } from 'react'
+const MAX_LEN = 64
 
 function Recommend() {
-  const MAX_LEN = 64
   const [email, setEmail] = useState('')
   const [channel, setChannel] = useState('')
   const [status, setStatus] = useState(null)

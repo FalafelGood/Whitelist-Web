@@ -17,8 +17,8 @@ function Channel({ channel, className = 'sm:max-w-[500px] md:max-w-[1200px]' }) 
       {channel.categories?.length > 0 && (
         <div className="flex flex-wrap gap-2 mx-3 my-4">
           {channel.categories.map((cat) => (
-            <Link to={`/?category=${cat}`}>
-              <span key={cat} className="btn btn-xs btn-neutral btn-outline">              
+            <Link to={`/?category=${cat}`} key={cat}>
+              <span className="btn btn-xs btn-neutral btn-outline">              
                 #{cat}
               </span>
             </Link>
