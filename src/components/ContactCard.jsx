@@ -23,9 +23,9 @@ function ContactCard({name, photo, title, blurb, email, linkedin=undefined, gith
         <ul>
           <li className="flex flex-row items-center gap-4">
             <IoIosMail className="text-3xl" />
-            <a href={email} className="link link-hover text-sm">
+            <p className="text-sm">
               {email}
-            </a>
+            </p>
           </li>
           {linkedin &&
           <li className="flex flex-row items-center gap-4">

@@ -8,7 +8,7 @@ function About() {
     <>
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[340px]">
-        <h1 className="text-6xl mb-4">YouTube for the Church</h1>
+        <h1 className="text-6xl my-8">Sometimes it is black and white</h1>
         <StatsCounter />
         <p className='mr-4 ml-4 text-xl font-light'>
           Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels on the site using a responsible combination of human moderation and artificial intelligence.
@@ -21,7 +21,7 @@ function About() {
         </div>
       </div>
 
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center my-8">
         <Link to="/recommend" className="btn btn-primary btn-lg">
           Recommend a Channel
         </Link>
@@ -39,9 +39,9 @@ function About() {
           // Pass jsx into the body instead of a string
           body={
             <>
-              In broad strokes, I identify promising YouTube channels and evaluate their content. If a creator produces high-quality and morally decent videos, their channel will be added to the Whitelist and their content will become available to watch.
+              In broad strokes, I identify promising YouTube channels and evaluate their content. If a creator produces high-quality and morally decent videos, I add their channel to the Whitelist and make their content available to watch.
               <br /><br />
-              This process is expedited through the use of artifical intelligence; Video transcripts are passed into a Large Language Model that summarizes the video, evaluates its moral content, and assigns it a rating.
+              Every video on the Whitelist is reviewed, summarized, and rated by a Large Language Model. Videos that are given a "morally offensive" rating are never platformed, and a channel that earns too many offensive ratings will be subject to review and removal.
             </>
           } 
         />
@@ -60,7 +60,6 @@ function About() {
                 <li>O: Morally offensive</li>
               </ul>
 
-              Videos that earn a classification of "O" are never platformed on the Whitelist. A channel that earns too many "O" ratings is subject to review and removal.
             </>
           } 
         />
@@ -69,7 +68,7 @@ function About() {
           title="Is Whitelist safe for children?"
           body={
             <>
-              No. While some effort is taken to screen channels, the system is far from airtight. Right now, this website is managed by one guy who spends enough time on YouTube as it is. Children who want to use Whitelist should do so with parental supervision.
+              No. While some effort is taken to screen channels, the system is far from airtight. This website is currently run by a guy who spends enough time on YouTube as it is. Children who want to use Whitelist should do so with parental supervision.
             </>
           } 
         />
@@ -83,17 +82,8 @@ function About() {
           } 
         />
 
-        {/* <DropBox 
-          title="Is there any danger of YouTube shutting you down?"
-          body={
-            <>
-              Naturally
-            </>
-          } 
-        /> */}
-
         <DropBox 
-          title="How does Whitelist generate revenue?"
+          title="How does Whitelist earn revenue?"
           body={
             <>
               Right now it doesn't. This is a passion project that might never go anywhere.
@@ -116,7 +106,7 @@ function About() {
       </div>
 
       <div className="flex flex-col justify-center items-center mb-16">
-        <ContactCard name="Dr. Hudson Leone" photo="../avatars/hudson.jpg" title="Webmaster" blurb={"Finally found a way to watch YouTube at work"} email="leoneht0@gmail.com" linkedin="https://www.linkedin.com/in/hudson-leone-62924b123" github="https://github.com/FalafelGood"/>
+        <ContactCard name="Hudson Leone" photo="../avatars/hudson.jpg" title="Webmaster" blurb={"Finally found a way to watch YouTube at work"} email="whitelist_admin@protonmail.com" linkedin="https://www.linkedin.com/in/hudson-leone-62924b123"/>
       </div>
     </>
   )
