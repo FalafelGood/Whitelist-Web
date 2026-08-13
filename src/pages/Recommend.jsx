@@ -55,7 +55,8 @@ function Recommend() {
     <>
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[340px]">
-          <h1 className="text-4xl mt-8 mb-8">Recommend a Channel</h1>
+          <h1 className="text-4xl mt-8">Thanks for your help!</h1>
+          <h3 className="text-lg mb-4">What do you want to watch?</h3>
 
           <form
             onSubmit={handleSubmit}

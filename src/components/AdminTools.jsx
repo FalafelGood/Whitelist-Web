@@ -32,7 +32,7 @@ function AdminTools() {
             <div className="divider my-0 text-sm">Browse</div>
 
             <div className="flex flex-col gap-2">
-              <Link to="/" className="btn btn-outline btn-neutral">
+              <Link to="/?category=unmoderated" className="btn btn-outline btn-neutral">
                 Browse unmoderated channels
               </Link>
               <Link to="/" className="btn btn-outline btn-neutral">

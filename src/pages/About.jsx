@@ -8,7 +8,7 @@ function About() {
     <>
       <div className="hero">
         <div className="hero-content text-center flex-col min-h-[340px]">
-        <h1 className="text-6xl my-8">Sometimes it is black and white</h1>
+        <h1 className="text-6xl my-8">YouTube for the Church</h1>
         <StatsCounter />
         <p className='mr-4 ml-4 text-xl font-light'>
           Whitelist is an unafilliated YouTube filter based on Catholic moral teachings. The goal is to find and platform the most edifying channels on the site using a responsible combination of human moderation and artificial intelligence.

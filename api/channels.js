@@ -1,4 +1,5 @@
 import { neon } from '@neondatabase/serverless'
+import { createClerkClient } from '@clerk/backend'
 
 // Tell Vercel to use the edge runtime. (I can choose from a few options like nodejs I think)
 export const config = {
@@ -22,7 +23,32 @@ export default async function handler(request) {
         );
     }
 
+    const sql = neon(process.env.NEON_DATABASE_URL);
     const url = new URL(request.url);
+    const cid = url.searchParams.get('cid');
+    
+
+    // If a channel id is specified, return all info about that channel
+    if (cid) {
+        console.log("inside")
+        try {
+            const channel =  await sql`
+                SELECT * FROM channels
+                where yt_channel_id = ${cid}
+            `
+            return new Response(
+                JSON.stringify({ channel }),
+                { status: 200, headers }
+            );
+        } catch (error) {
+            console.error('Database error:', error);
+            return new Response(
+                JSON.stringify({ error: 'Internal server error', message: error.message }),
+                { status: 500, headers }
+            );
+        }
+    }
+
     const category = url.searchParams.get('category');
     const seed = url.searchParams.get('seed') || crypto.randomUUID();
     const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
@@ -30,8 +56,7 @@ export default async function handler(request) {
     const offset = (page - 1) * limit;
 
     try {
-        // Initialize Neon client with environment variable containing handshake
-        const sql = neon(process.env.NEON_DATABASE_URL);
+
         let channels = [];
 
         /*
@@ -77,55 +102,53 @@ export default async function handler(request) {
                 LEFT JOIN cats_of_loaded_channels colc
                     ON colc.yt_channel_id = lc.yt_channel_id
             `
-        } else {
-            /*
-                VERSION 1 -- Bugged query
+        } else if (category === 'unmoderated') {
+            const clerkClient = createClerkClient({
+                publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+                secretKey: process.env.CLERK_SECRET_KEY,
+            })
 
-                The WHERE clause only selects rows where `name = ${category}`.
-                Consequently any categories other than `${category}` are dropped.
-            */
+            const { isAuthenticated } = await clerkClient.authenticateRequest(
+                request,
+                {
+                    authorizedParties: ['http://localhost:3000', 'https://whitelist.media'],
+                }
+            )
 
-            // channels = await sql`
-            //     SELECT c.*, array_agg(cat.name) AS categories
-            //     FROM channels c
-            //     JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
-            //     JOIN categories cat on cc.category_id = cat.id
-            //     WHERE cc.category_id = (
-            //         SELECT id FROM categories WHERE name = ${category}
-            //     )
-            //     AND c.human_moderation_status = 'approved'
-            //     GROUP BY c.yt_channel_id
-            //     ORDER BY md5(c.yt_channel_id::text || ${seed}) 
-            //     LIMIT ${limit} OFFSET ${offset};
-            // `
-
-
-            /*
-                VERSION 2 -- Fixed query, but still inefficient.
-
-                The problem with this query is that categories is JOINED onto the entire table which creates a lot of uneccesary compute since *most channels will not make it onto the page*.
-
-                The third revision solves this problem by using CTEs to first grab all the channels that will appear on the page and then figure out their categories.
-            */
+            if (!isAuthenticated) {
+                return new Response(
+                    JSON.stringify({ error: 'Unauthorized' }),
+                    { status: 401, headers }
+                )
+            }
 
             // channels = await sql`
-            //     SELECT c.*, array_agg(cat.name) AS categories
-            //     FROM channels c
-            //     JOIN channel_categories cc ON cc.yt_channel_id = c.yt_channel_id
-            //     JOIN categories cat on cc.category_id = cat.id
-            //     WHERE EXISTS (
-            //         SELECT 1
-            //         FROM channel_categories cc2
-            //         JOIN categories cat2 ON cc2.category_id = cat2.id
-            //         WHERE cc2.yt_channel_id = cc.yt_channel_id
-            //             AND cat2.name = ${category}
-            //     )
-            //     AND c.human_moderation_status = 'approved'
-            //     GROUP BY c.yt_channel_id
-            //     ORDER BY md5(c.yt_channel_id::text || ${seed}) 
+            //     SELECT * FROM channels 
+            //     WHERE human_moderation_status = 'unmoderated'
             //     LIMIT ${limit} OFFSET ${offset}
             // `
-            
+            channels = await sql`
+                WITH loaded_channels AS (
+                    SELECT c.* FROM channels c
+                    WHERE c.human_moderation_status = 'unmoderated'
+                    LIMIT ${limit} OFFSET ${offset}
+                ),
+                cats_of_loaded_channels AS (
+                    SELECT
+                        cc.yt_channel_id,
+                        array_agg(cat.name) AS categories
+                    FROM channel_categories cc
+                    JOIN categories cat ON cat.id = cc.category_id
+                    WHERE cc.yt_channel_id IN (
+                        SELECT yt_channel_id FROM loaded_channels
+                    )
+                    GROUP BY cc.yt_channel_id
+                )
+                SELECT lc.*, colc.categories
+                FROM loaded_channels lc
+                JOIN cats_of_loaded_channels colc ON colc.yt_channel_id = lc.yt_channel_id
+            `
+        } else { 
             /*
                 Query overview:
 

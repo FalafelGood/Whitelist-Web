@@ -1,10 +1,13 @@
 // J.M.J.
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import Channel from '../components/Channel'
 import Loading from './Loading'
 import CategoriesBar from '../components/CategoriesBar';
 import AdminTools from '../components/AdminTools'
+import ErrorPage from './Error';
+import Unauthorized from './Unauthorized';
+import { FaRegHeart } from "react-icons/fa";
 
 // Stable for the life of the page load; survives Home remounts on client-side nav.
 // Need to use state if I want a "randomize" button that changes seed
@@ -23,7 +26,9 @@ function Home() {
       `api/channels?category=${category}&seed=${seed}&page=${pageParam}&limit=${limit}`
     )
     if (!res.ok) {
-      throw new Error(`HTTP code ${res.status}`);
+      const err = new Error(`HTTP code ${res.status}`);
+      err.status = res.status
+      throw err;
     }
     return res.json();
   }
@@ -32,6 +37,7 @@ function Home() {
     data,
     isPending,
     isError,
+    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
@@ -57,7 +63,11 @@ function Home() {
   }
 
   if (isError) {
-    return <h1>Something went wrong!</h1>
+    console.log(error.status);
+    if (error.status === 401) {
+      return <Unauthorized />
+    }
+    return <ErrorPage />
   }
 
   const pages = data?.pages ?? [];
@@ -72,9 +82,15 @@ function Home() {
           <Channel key={idx} channel={channel} />
         ))}
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center gap-8 mt-4 mb-8">
+        <Link to="/recommend" className="btn btn-md btn-neutral btn-outline">
+          <span className="mr-1">
+            Recommend a channel
+          </span>
+          <FaRegHeart size={16} />
+        </Link>
         <button
-          className="btn btn-primary w-48 ml-4 mr-4 mb-8"
+          className="btn btn-md w-48 btn-outline btn-neutral btn-outline"
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
         >
