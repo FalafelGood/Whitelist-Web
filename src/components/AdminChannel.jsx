@@ -33,8 +33,18 @@ function AdminChannel({ name, channelId }) {
     },
   })
 
-  const isPending = assignedCats.isPending || allCats.isPending
-  const isError = assignedCats.isError || allCats.isError
+  // Query for channel metadata
+  const channelData = useQuery({
+    queryKey: ['channels', channelId],
+    queryFn: async() => {
+      const res = await fetch(`/api/channels?cid=${channelId}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    },
+  })
+
+  const isPending = assignedCats.isPending || allCats.isPending || channelData.isPending
+  const isError = assignedCats.isError || allCats.isError || channelData.isError
 
   const deleteCategory = useMutation({
     mutationFn: async (category) => {
@@ -87,6 +97,24 @@ function AdminChannel({ name, channelId }) {
     },
   })
 
+  const exposeVideos = useMutation({
+    mutationFn: async () => {
+      const token = await getToken()
+      const res = await fetch(
+        `/api/expose_videos?cid=${channelId}`,
+        {
+          method: 'GET',
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
+      )
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      return res.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['channels', channelId] })
+    },
+  })
+
   /* 
     Three different lists below:
       + The categories assigned to a channel
@@ -97,10 +125,20 @@ function AdminChannel({ name, channelId }) {
   const all = allCats.data?.categories ?? []
   const addable = all.filter((c) => !assigned.includes(c))
 
+  // Some important stats about the channel
+  const {
+    video_count: videoCount,
+    video_review_count: videoReviewCount,
+    offensive_videos_count: offensiveVideosCount,
+    low_quality_videos_count: lowQualityVideosCount,
+    videos_exposed_count: videosExposedCount,
+    human_moderation_status: humanModerationStatus,
+  } = channelData.data?.channel?.[0] ?? {}
+
   return (
     <Show when="signed-in">
       <div className="flex justify-center px-4 mt-6">
-        <div className="card bg-neutral-100 border border-neutral-300 w-full max-w-xl shadow-md">
+        <div className="card bg-neutral-100 border border-neutral-300 w-full max-w-2xl shadow-md">
           <div className="card-body gap-6">
             <div className="flex items-center justify-between gap-4">
               <h1 className="card-title text-xl text-red-500">Admin Tools for "{name}"</h1>
@@ -210,12 +248,44 @@ function AdminChannel({ name, channelId }) {
               <p className="text-sm text-error">{updateCategories.error.message}</p>
             )}
 
+            {!isPending && (
+              <>
+                <p>Videos exposed: {videosExposedCount}</p>
+                <p>Videos reviewed: {videoReviewCount}</p>
+                <p>Total videos: {videoCount}</p>
+              </>
+            )}
+            
+            <div className="flex flex-row justify-center mb-4">
+              <button
+                type="button"
+                className="btn btn-warning w-50"
+                disabled={exposeVideos.isPending}
+                onClick={() => exposeVideos.mutate()}
+              >
+                {exposeVideos.isPending ? 'Exposing…' : 'Expose 50 videos'}
+              </button>
+            </div>
+
+            {exposeVideos.isError && (
+              <p className="text-sm text-error">{exposeVideos.error.message}</p>
+            )}
+
             <div className="divider my-0 text-sm">DANGER ZONE</div>
 
-            <div className="flex flex-col gap-2">
-              <span className="btn btn-neutral text-red-500">
+            <div className="flex flex-row justify-center gap-2">
+              <button 
+                className="btn btn-neutral text-red-500"
+                disabled={channelData.isPending || humanModerationStatus === 'banned'}
+                >
                 Blacklist "{name}"
-              </span>
+              </button>
+              <button 
+                className="btn btn-outline text-red-500"
+                disabled={channelData.isPending || humanModerationStatus === 'approved'}
+                >
+                Whitelist "{name}"
+              </button>
             </div>
           </div>
         </div>

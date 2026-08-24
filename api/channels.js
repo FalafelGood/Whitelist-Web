@@ -22,7 +22,6 @@ export default {
     
     // If a channel id is specified, return all info about that channel
     if (cid) {
-      console.log("inside")
       try {
         const channel =  await sql`
           SELECT * FROM channels
@@ -135,9 +134,11 @@ export default {
               )
               GROUP BY cc.yt_channel_id
           )
-          SELECT lc.*, colc.categories
+          SELECT 
+            lc.*, 
+            COALESCE(colc.categories, '{}') AS categories
           FROM loaded_channels lc
-          JOIN cats_of_loaded_channels colc ON colc.yt_channel_id = lc.yt_channel_id
+          LEFT JOIN cats_of_loaded_channels colc ON colc.yt_channel_id = lc.yt_channel_id
         `
       } else { 
         /*
