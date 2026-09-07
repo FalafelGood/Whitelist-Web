@@ -115,6 +115,24 @@ function AdminChannel({ name, channelId }) {
     },
   })
 
+  const changeModerationStatus = useMutation({
+    mutationFn: async (status) => {
+      const token = await getToken()
+      const res = await fetch(
+        `/api/set_moderation_status?cid=${channelId}&status=${status}`,
+        {
+          method: 'POST',
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        }
+      )
+      if (!res.ok) throw new Error(`HTTP ${res.headers}`)
+      return res.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['channels', channelId] })
+    },
+  })
+
   /* 
     Three different lists below:
       + The categories assigned to a channel
@@ -283,11 +301,21 @@ function AdminChannel({ name, channelId }) {
               <button 
                 className="btn btn-outline text-red-500"
                 disabled={channelData.isPending || humanModerationStatus === 'approved'}
+                onClick={() => {
+                  if (window.confirm(`Are you sure you want to allow the channel "${name}"`)) {
+                      changeModerationStatus.mutate("approved");
+                  }
+                }}
                 >
                 Whitelist "{name}"
               </button>
             </div>
           </div>
+
+          {changeModerationStatus.isError && (
+            <p className="text-sm text-error">{changeModerationStatus.error.message}</p>
+          )}
+
         </div>
       </div>
     </Show>

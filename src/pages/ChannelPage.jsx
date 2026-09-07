@@ -1,8 +1,9 @@
 import VideoCard from '../components/VideoCard'
 import Loading from './Loading';
+import ChannelStats from '../components/ChannelStats';
 import AdminChannel from '../components/AdminChannel';
 import { Link, useSearchParams } from 'react-router-dom'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useAuth } from '@clerk/react'
 
 function ChannelPage() {
@@ -48,7 +49,23 @@ function ChannelPage() {
     enabled: !!channelId
   });
 
-  if (isPending) {
+  const {
+    data: stats,
+    isPending: isStatsPending,
+    isError: isStatsError
+  } = useQuery({
+    queryKey: ['channelStats', channelId],
+    queryFn: async () => {
+      const res = await fetch(`/api/channel_stats?cid=${channelId}`)
+      if (!res.ok) {
+        throw new Error(`HTTP code ${res.status}`);
+      }
+      return res.json();
+    },
+    enabled: !!channelId
+  });
+
+  if (isPending || isStatsPending) {
     return (
       <>
         <Loading/>
@@ -56,7 +73,7 @@ function ChannelPage() {
     )
   }
 
-  if (isError) {
+  if (isError || isStatsError) {
     return <h1>Something went wrong!</h1>
   }
 
@@ -67,7 +84,11 @@ function ChannelPage() {
 
   return (
     <>
-      <h1 className="card-title text-4xl ml-8 mt-8">Videos from {name}</h1>
+      <h1 className="card-title text-4xl ml-8 mt-8">{name}</h1>
+      <ChannelStats 
+        ratingStats = {stats.ratingStats}
+        videoStats = {stats.videoStats}
+      />
       {isSignedIn && <AdminChannel name={name} channelId={channelId} />}
       <div className="flex items-center justify-center">
         <Link to="/" className="btn btn-primary w-48 ml-8 mr-8 mt-6">

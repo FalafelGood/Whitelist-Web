@@ -39,6 +39,32 @@ export default {
         );
       }
     }
+
+    // if (cid) {
+    //   try {
+    //     const [channel, videoStats] =  await sql.transaction([
+    //       sql`
+    //       SELECT * FROM channels
+    //       where yt_channel_id = ${cid}
+    //       `,
+    //       sql`
+    //       SELECT osv_rating, COUNT(*) FROM videos
+    //       WHERE yt_channel_id = ${cid}
+    //       GROUP BY osv_rating
+    //       `
+    //     ]);
+    //     return new Response(
+    //       JSON.stringify({ channel, videoStats }),
+    //       { status: 200, headers }
+    //     );
+    //   } catch (error) {
+    //     console.error('Database error:', error);
+    //     return new Response(
+    //       JSON.stringify({ error: 'Internal server error', message: error.message }),
+    //       { status: 500, headers }
+    //     );
+    //   }
+    // }
     
     const category = url.searchParams.get('category');
     const seed = url.searchParams.get('seed') || crypto.randomUUID();
