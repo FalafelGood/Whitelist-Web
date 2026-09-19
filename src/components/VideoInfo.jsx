@@ -2,6 +2,8 @@
 
 import RatingBadge from "./RatingBadge"
 import FlagVideoModal from "./FlagVideoModal"
+import LikeButton from "./LikeButton"
+import SubscribeButton from "./SubscribeButton"
 import { Link } from "react-router-dom"
 
 function VideoInfo({ videoData, channelData }) {
@@ -14,7 +16,7 @@ function VideoInfo({ videoData, channelData }) {
         </h2>
 
         {/* Channel info */}
-        <div className="card-actions my-2 w-full flex items-center justify-between">
+        <div className="card-actions my-2 w-full flex items-center gap-8">
           <Link 
             className="flex items-center gap-3 min-w-0"
             to={`/channel?cid=${channelData.yt_channel_id}`} 
@@ -27,6 +29,9 @@ function VideoInfo({ videoData, channelData }) {
             />
             <h3 className="truncate text-lg">{channelData.name}</h3>
           </Link>
+            
+          <SubscribeButton size="md" />
+          
         </div>
 
         <div className="flex flex-row items-center gap-2">
@@ -34,6 +39,8 @@ function VideoInfo({ videoData, channelData }) {
           osvRating={videoData.osv_rating}
           shortForm={false}
           />
+
+          <LikeButton />
           
           <FlagVideoModal ytVideoId={videoData.yt_video_id} />
         </div>

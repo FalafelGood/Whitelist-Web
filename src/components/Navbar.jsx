@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ProfileButton from './ProfileButton';
 
 const buttons = ['Home', 'About'];
 
@@ -39,7 +40,7 @@ function Navbar({ title = 'Whitelist' }) {
       </div>
 
       <div className="flex-1 flex justify-end px-2 mx-2">
-        <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-col sm:flex-row items-center">
           {buttons.map((label, idx) => (
             <Link
               to={`/${label === 'Home' ? '' : label}`}
@@ -50,6 +51,8 @@ function Navbar({ title = 'Whitelist' }) {
               {label}
             </Link>
           ))}
+
+          <ProfileButton />
         </div>
       </div>
     </nav>

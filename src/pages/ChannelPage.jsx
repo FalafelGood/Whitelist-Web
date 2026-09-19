@@ -2,6 +2,7 @@ import VideoCard from '../components/VideoCard'
 import Loading from './Loading';
 import ChannelStats from '../components/ChannelStats';
 import AdminChannel from '../components/AdminChannel';
+import SubscribeButton from '../components/SubscribeButton';
 import { Link, useSearchParams } from 'react-router-dom'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useAuth } from '@clerk/react'
@@ -84,17 +85,24 @@ function ChannelPage() {
 
   return (
     <>
-      <h1 className="card-title text-4xl ml-8 mt-8">{name}</h1>
+      <div className="flex flex-col mt-8 ml-8 gap-4">
+        <h1 className="card-title text-4xl">{name}</h1>
+
+        <div className="flex flex-row gap-4">
+          <SubscribeButton />
+          <Link to="/" className="btn btn-primary btn-outline btn-lg w-32">
+            Back
+          </Link>
+        </div>
+      </div>
+      
+
       <ChannelStats 
         ratingStats = {stats.ratingStats}
         videoStats = {stats.videoStats}
       />
       {isSignedIn && <AdminChannel name={name} channelId={channelId} />}
-      <div className="flex items-center justify-center">
-        <Link to="/" className="btn btn-primary w-48 ml-8 mr-8 mt-6">
-          Home
-        </Link>
-      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-6 gap-y-8 place-items-center px-4 pb-4 mt-8">
         {videos.map((video) => (
           <VideoCard key={video.yt_video_id} video={video} />
