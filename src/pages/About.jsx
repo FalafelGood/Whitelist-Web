@@ -68,7 +68,7 @@ function About() {
           title="Is Whitelist safe for children?"
           body={
             <>
-              No. While some effort is taken to screen channels, the system is far from airtight. This website is currently run by a guy who spends enough time on YouTube as it is. Children who want to use Whitelist should do so with parental supervision.
+              It's certainly safer than YouTube, but at this stage, children should not use Whitelist without parental supervision!
             </>
           } 
         />
