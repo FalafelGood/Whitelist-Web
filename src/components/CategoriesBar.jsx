@@ -6,7 +6,7 @@ function CategoriesBar({ category }) {
     <div className="navbar bg-base-200 shadow-sm flex flex-col space-between w-full">
       <div className="flex flex-row items-center">
         <h1 className="mr-2">Browsing channels by:</h1>
-        <Link to="/categories" className="btn m-1">
+        <Link to="/categories" className="btn btn-neutral btn-outline m-1 btn-md">
           {formatCategoryText(category)}
         </Link>
       </div>

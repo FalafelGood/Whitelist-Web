@@ -46,7 +46,7 @@ function CategoriesPage() {
           <Link
             key={cat}
             to={categoryPath(cat)}
-            className="card border border-width-1 border-neutral-300 hover:bg-base-300 transition-all"
+            className="card border border-width-1 border-neutral-300 hover:bg-black hover:text-white transition-all duration-25"
           >
             <div className="card-body items-center text-center p-6">
               <h2 className="">{formatCategoryText(cat)}</h2>

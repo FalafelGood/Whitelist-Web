@@ -1,5 +1,6 @@
 import VideoCard from '../components/VideoCard'
 import {Link} from 'react-router-dom'
+import SubscribeButton from './SubscribeButton';
 
 // N.B. "className" is an optional prop is used in SearchPage.jsx to squeeze the channel component into 
 // the search results a little bit more nicely.
@@ -42,12 +43,15 @@ function Channel({ channel, className = 'sm:max-w-[500px] md:max-w-[1200px]' }) 
       </div>
 
       
-
-      <Link to={`/channel?cid=${channel.yt_channel_id}`}
-      state={channel}
-      className="btn btn-primary mx-2 mb-6 mt-auto">
-      Visit Channel
-      </Link>
+      <div className="flex flex-row justify-center my-2 mx-4 gap-4 mb-5">
+        <Link to={`/channel?cid=${channel.yt_channel_id}`}
+        state={channel}
+        className="btn btn-primary btn-outline flex-1">
+        Visit Channel
+        </Link>
+        <SubscribeButton size="md" />
+      </div>
+      
     </div>
   );
 }
