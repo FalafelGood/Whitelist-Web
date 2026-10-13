@@ -9,61 +9,58 @@
 */
 
 import { neon } from '@neondatabase/serverless'
-
 const MAX_LEN = 64
 
-export const config = {
-  runtime: 'edge',
-}
-
-export default async function handler(request) {
-  const headers = {
-    'Content-Type': 'application/json',
-  }
-
-  if (request.method !== 'POST') {
-    return new Response(
-      JSON.stringify({ error: 'Method not allowed' }),
-      { status: 405, headers }
-    )
-  }
-
-  try {
-    const body = await request.json()
-    const email = body.email?.trim() || null
-    const channel = body.channel?.trim()
-
-    if (!channel) {
+export default {
+  async fetch(request) {
+    const headers = {
+      'Content-Type': 'application/json',
+    }
+  
+    if (request.method !== 'POST') {
       return new Response(
-        JSON.stringify({ error: 'Channel is required' }),
-        { status: 400, headers }
+        JSON.stringify({ error: 'Method not allowed' }),
+        { status: 405, headers }
       )
     }
-
-    const emailTooLong = email ? email.length > MAX_LEN : false;
-    const channelTooLong = channel.length > MAX_LEN;
-    
-    if (emailTooLong || channelTooLong) {
-      return new Response(
-        JSON.stringify(
-          { error: 'Email and recommendation must not exceed 64 characters' },
-          { status: 403, headers }
+  
+    try {
+      const body = await request.json()
+      const email = body.email?.trim() || null
+      const channel = body.channel?.trim()
+  
+      if (!channel) {
+        return new Response(
+          JSON.stringify({ error: 'Channel is required' }),
+          { status: 400, headers }
         )
+      }
+  
+      const emailTooLong = email ? email.length > MAX_LEN : false;
+      const channelTooLong = channel.length > MAX_LEN;
+      
+      if (emailTooLong || channelTooLong) {
+        return new Response(
+          JSON.stringify(
+            { error: 'Email and recommendation must not exceed 64 characters' },
+            { status: 403, headers }
+          )
+        )
+      }
+  
+      const sql = neon(process.env.NEON_DATABASE_URL)
+      await sql`INSERT INTO recommendations (email, channel) VALUES (${email}, ${channel})`
+  
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 201, headers }
+      )
+    } catch (error) {
+      console.error('Database error:', error)
+      return new Response(
+        JSON.stringify({ error: 'Internal server error' }),
+        { status: 500, headers }
       )
     }
-
-    const sql = neon(process.env.NEON_DATABASE_URL)
-    await sql`INSERT INTO recommendations (email, channel) VALUES (${email}, ${channel})`
-
-    return new Response(
-      JSON.stringify({ success: true }),
-      { status: 201, headers }
-    )
-  } catch (error) {
-    console.error('Database error:', error)
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      { status: 500, headers }
-    )
   }
 }

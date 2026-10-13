@@ -2,12 +2,6 @@
 // import 'dotenv/config';
 import { neon } from "@neondatabase/serverless";
 
-
-export const config = {
-    runtime: 'edge',
-}
-
-
 const VOYAGE_EMBEDDINGS_URL = 'https://api.voyageai.com/v1/embeddings';
 const VOYAGE_MODEL = 'voyage-4-lite';
 const VOYAGE_DIM = 1024;
@@ -75,6 +69,7 @@ async function voyageEmbed(
   throw new Error('Voyage embeddings error: exhausted retries');
 }
 
+
 function toPgvectorTextLiteral(vec) {
     // pgvector accepts the "[...]" text format; we'll pass it as a parameter and cast to vector(1024) in SQL.
     return `[${vec.join(',')}]`;
@@ -97,60 +92,61 @@ function delimitBySpace(str) {
 }
 
 
-export default async function handler(request) {
-
+export default {
+  async fetch(request) {
     const headers = {
-        'Content-Type' : 'application/json'
+      'Content-Type' : 'application/json'
     }
 
     if (request.method !== 'GET') {
-        return new Response(
-            JSON.stringify({ error: 'Method not allowed' }),
-            { status: 405, headers }
-        );
+      return new Response(
+        JSON.stringify({ error: 'Method not allowed' }),
+        { status: 405, headers }
+      );
     }
 
     const url = new URL(request.url);
     const searchQuery = delimitBySpace(url.searchParams.get('search_query'));
 
     try {
-        const vec = await embedQuery(searchQuery);
-        const sql = neon(process.env.NEON_DATABASE_URL);
+      const vec = await embedQuery(searchQuery);
+      const sql = neon(process.env.NEON_DATABASE_URL);
 
-        const [searchResults, channelRows] = await sql.transaction([
-          sql`
-            SELECT * FROM search_video_titles(
-            ${searchQuery},
-            ${toPgvectorTextLiteral(vec)}::vector(1024)
-            )
-          `,
-          sql`
-            SELECT 
-              to_json(channel) AS channel,
-              lexical_score
-            FROM search_channels(${searchQuery}, 1)
-            `
-        ])
+      const [searchResults, channelRows] = await sql.transaction([
+        sql`
+          SELECT * FROM search_video_titles(
+          ${searchQuery},
+          ${toPgvectorTextLiteral(vec)}::vector(1024)
+          )
+        `,
+        sql`
+          SELECT 
+            to_json(channel) AS channel,
+            lexical_score
+          FROM search_channels(${searchQuery}, 1)
+          `
+      ])
 
-        // If channelRows exists, it should only have 1 row.
-        // Extract the channel here
-        const top = channelRows?.[0];
-        const channelMatch = 
-          top && Number(top.lexical_score) > 0.50 ? top.channel : null;
+      // If channelRows exists, it should only have 1 row.
+      // Extract the channel here
+      const top = channelRows?.[0];
+      const channelMatch = 
+        top && Number(top.lexical_score) > 0.50 ? top.channel : null;
 
-        return new Response(
-          JSON.stringify({
-            searchResults: searchResults,
-            channel: channelMatch
-          }),
-          { status: 200, headers }
-        )
+      return new Response(
+        JSON.stringify({
+          searchResults: searchResults,
+          channel: channelMatch
+        }),
+        { status: 200, headers }
+      )
         
     } catch (error) {
         console.error('Database error:', error);
         return new Response(
-            JSON.stringify({ error: 'Internal server error', message: error.message }),
-            { status: 500, headers }
-        );
+          JSON.stringify({ error: 'Internal server error', message: error.message }),
+          { status: 500, headers }
+      );
     }
+  }
 }
